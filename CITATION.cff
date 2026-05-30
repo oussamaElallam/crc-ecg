@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "Per-Class Conformal Risk Control for Multi-Label ECG Classification"
+message: "If you use this code, please cite the paper below."
+authors:
+  - family-names: "El Allam"
+    given-names: "Oussama"
+    email: "elallamoussama7@gmail.com"
+    affiliation: "Complex Cyber-Physical Systems Laboratory, ENSAM Casablanca, University Hassan II"
+  - family-names: "Hamlich"
+    given-names: "Mohamed"
+    affiliation: "Complex Cyber-Physical Systems Laboratory, ENSAM Casablanca, University Hassan II"
+preferred-citation:
+  type: article
+  title: "Per-Class Conformal Risk Control for Multi-Label ECG Classification: Achieving Clinically-Justified False Negative Rate Guarantees"
+  authors:
+    - family-names: "El Allam"
+      given-names: "Oussama"
+    - family-names: "Hamlich"
+      given-names: "Mohamed"
+  journal: "Physiological Measurement"
+  year: 2026
+license: MIT
+keywords:
+  - "conformal prediction"
+  - "conformal risk control"
+  - "ECG classification"
+  - "multi-label classification"
+  - "medical AI safety"
+  - "false negative rate control"

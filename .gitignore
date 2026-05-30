@@ -1,0 +1,45 @@
+# Data — too large to version, must be downloaded by user
+*.h5
+*.hea
+*.dat
+*.mat
+*.zip
+ptb-xl/
+chapman/
+chapman-shaoxing/
+WFDB_*/
+data/
+
+# Models
+*.keras
+*.h5
+checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Build artefacts that should not be committed
+node_modules/
+*.log
+
+# Outputs from runs (keep example_results.json in root for reference)
+results_output/
+run_results_*.json
+!example_results.json
