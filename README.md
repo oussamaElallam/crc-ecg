@@ -31,7 +31,7 @@ Critical-class held-out FNRs at the reported operating point are approximately:
 - AF: **0.30%** (target 5%)
 - ST: **0.47%** (target 5%)
 
-This sensitivity comes with a substantial specificity/workload cost, especially on Chapman. The repository reports every per-class FPR and prediction-set size; the method should be interpreted as high-sensitivity risk control, not autonomous diagnosis. Publication figures are regenerated from the committed result files and are not versioned, preventing stale images from diverging from the code.
+This sensitivity comes with a substantial specificity/workload cost, especially on Chapman. The repository reports every per-class FPR and prediction-set size; the method should be interpreted as high-sensitivity risk control, not autonomous diagnosis.
 
 ## Corrected data protocol
 
@@ -58,7 +58,7 @@ crc-ecg/
 ├── results/
 │   ├── verification_results_20260712_1446.json
 │   └── exact_binomial_rcps_results_20260712_1459.json
-├── figures/                    # generated locally (not versioned)
+├── figures/                    # corrected manuscript figures
 ├── scripts/
 │   └── exact_binomial_rcps_patch.py
 ├── tests/

@@ -27,7 +27,8 @@
       "n_validation": 714,
       "n_cal": 1530,
       "n_test": 1530
-    }
+    },
+    "chapman_normalization": "Chapman fitting partition only"
   },
   "headline": {
     "exact_binomial_rcps_empirical_targets_met": 9,
@@ -35,20 +36,330 @@
     "uniform_standard_cp_targets_met": 5,
     "total_fnr_targets": 9
   },
-  "critical_test_fnr": {
-    "MI": 0.0,
-    "STTC": 0.01037613488975353,
-    "AF": 0.00303030303030305,
-    "ST": 0.004739336492891044
+  "ptbxl": {
+    "calibration": {
+      "0": {
+        "n_cal": 777,
+        "alpha_target": 0.1,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9183225035667419,
+        "probability_threshold": 0.08167749643325806,
+        "calibration_misses": 42,
+        "calibration_fnr": 0.05405405405405406,
+        "exact_ucb": 0.0780992698108053,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9183225035667419,
+        "exact_minimal_threshold": 0.8978574275970459
+      },
+      "1": {
+        "n_cal": 384,
+        "alpha_target": 0.15,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.938686728477478,
+        "probability_threshold": 0.06131327152252197,
+        "calibration_misses": 32,
+        "calibration_fnr": 0.08333333333333333,
+        "exact_ucb": 0.1256924534935212,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.938686728477478,
+        "exact_minimal_threshold": 0.9217808619141579
+      },
+      "2": {
+        "n_cal": 744,
+        "alpha_target": 0.05,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9969683885574341,
+        "probability_threshold": 0.003031611442565918,
+        "calibration_misses": 2,
+        "calibration_fnr": 0.002688172043010753,
+        "exact_ucb": 0.012230222234744828,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9969683885574341,
+        "exact_minimal_threshold": 0.964969091117382
+      },
+      "3": {
+        "n_cal": 1422,
+        "alpha_target": 0.15,
+        "delta": 0.05,
+        "confidence": 0.95,
+        "threshold": 0.37632399797439575,
+        "probability_threshold": 0.6236760020256042,
+        "calibration_misses": 166,
+        "calibration_fnr": 0.11673699015471167,
+        "exact_ucb": 0.13168636289514732,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.37632399797439575,
+        "exact_minimal_threshold": 0.3340381979942322
+      },
+      "4": {
+        "n_cal": 761,
+        "alpha_target": 0.05,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.996553897857666,
+        "probability_threshold": 0.0034461021423339844,
+        "calibration_misses": 3,
+        "calibration_fnr": 0.003942181340341655,
+        "exact_ucb": 0.014167769667109274,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.996553897857666,
+        "exact_minimal_threshold": 0.9382526315748692
+      }
+    },
+    "metrics": {
+      "class_fnr": {
+        "CD": 0.06424581005586594,
+        "HYP": 0.09307875894988071,
+        "MI": 0.0,
+        "NORM": 0.11914893617021272,
+        "STTC": 0.01037613488975353
+      },
+      "class_fpr": {
+        "CD": 0.38759065269943593,
+        "HYP": 0.28067650233897085,
+        "MI": 0.8030625265844321,
+        "NORM": 0.10794183445190157,
+        "STTC": 0.6802637000412032
+      },
+      "class_tpr": {
+        "CD": 0.9357541899441341,
+        "HYP": 0.9069212410501193,
+        "MI": 1.0,
+        "NORM": 0.8808510638297873,
+        "STTC": 0.9896238651102465
+      },
+      "class_set_pct": {
+        "CD": 0.5103189493433395,
+        "HYP": 0.3627267041901188,
+        "MI": 0.8552220137585991,
+        "NORM": 0.44871794871794873,
+        "STTC": 0.7548467792370231
+      },
+      "mean_set_size": 2.9318323952470293,
+      "median_set_size": 3.0,
+      "joint_coverage": 0.9190118824265165,
+      "macro_class_coverage": 0.9426300719868574,
+      "marginal_coverage": 0.9426300719868574
+    },
+    "empirical_targets_met": 4,
+    "target_count": 4
+  },
+  "chapman": {
+    "calibration": {
+      "0": {
+        "n_cal": 1296,
+        "alpha_target": 0.15,
+        "delta": 0.05,
+        "confidence": 0.95,
+        "threshold": 0.3611002266407013,
+        "probability_threshold": 0.6388997733592987,
+        "calibration_misses": 149,
+        "calibration_fnr": 0.11496913580246913,
+        "exact_ucb": 0.13058239611194808,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.3611002266407013,
+        "exact_minimal_threshold": 0.24215495586395264
+      },
+      "1": {
+        "n_cal": 328,
+        "alpha_target": 0.05,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9547762870788574,
+        "probability_threshold": 0.04522371292114258,
+        "calibration_misses": 0,
+        "calibration_fnr": 0.0,
+        "exact_ucb": 0.015707515273112736,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9547762870788574,
+        "exact_minimal_threshold": 0.8361175209283829
+      },
+      "2": {
+        "n_cal": 164,
+        "alpha_target": 0.1,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9912694096565247,
+        "probability_threshold": 0.008730590343475342,
+        "calibration_misses": 0,
+        "calibration_fnr": 0.0,
+        "exact_ucb": 0.031168304510170403,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9912694096565247,
+        "exact_minimal_threshold": 0.9645715095102787
+      },
+      "3": {
+        "n_cal": 72,
+        "alpha_target": 0.1,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9933987855911255,
+        "probability_threshold": 0.006601214408874512,
+        "calibration_misses": 0,
+        "calibration_fnr": 0.0,
+        "exact_ucb": 0.0695848556900068,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9933987855911255,
+        "exact_minimal_threshold": 0.9923449554480612
+      },
+      "4": {
+        "n_cal": 233,
+        "alpha_target": 0.05,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.9942341446876526,
+        "probability_threshold": 0.005765855312347412,
+        "calibration_misses": 0,
+        "calibration_fnr": 0.0,
+        "exact_ucb": 0.02204083994945086,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.9942341446876526,
+        "exact_minimal_threshold": 0.979608615860343
+      },
+      "5": {
+        "n_cal": 282,
+        "alpha_target": 0.15,
+        "delta": 0.005555555555555556,
+        "confidence": 0.9944444444444445,
+        "threshold": 0.8989666700363159,
+        "probability_threshold": 0.10103332996368408,
+        "calibration_misses": 20,
+        "calibration_fnr": 0.07092198581560284,
+        "exact_ucb": 0.118985074191917,
+        "feasible": true,
+        "vacuous": false,
+        "guarantee_valid": true,
+        "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+        "legacy_safeguard_applied": true,
+        "legacy_threshold": 0.8989666700363159,
+        "exact_minimal_threshold": 0.8808615505695343
+      }
+    },
+    "metrics": {
+      "class_fnr": {
+        "Normal": 0.11196911196911197,
+        "AF": 0.00303030303030305,
+        "CD": 0.0064102564102563875,
+        "PAC_PVC": 0.012345679012345734,
+        "ST": 0.004739336492891044,
+        "Other": 0.11627906976744184
+      },
+      "class_fpr": {
+        "Normal": 0.08085106382978724,
+        "AF": 0.1425,
+        "CD": 0.6426491994177583,
+        "PAC_PVC": 0.937888198757764,
+        "ST": 0.9537528430629265,
+        "Other": 0.5042158516020236
+      },
+      "class_tpr": {
+        "Normal": 0.888030888030888,
+        "AF": 0.996969696969697,
+        "CD": 0.9935897435897436,
+        "PAC_PVC": 0.9876543209876543,
+        "ST": 0.995260663507109,
+        "Other": 0.8837209302325582
+      },
+      "class_set_pct": {
+        "Normal": 0.7640522875816993,
+        "AF": 0.32679738562091504,
+        "CD": 0.6784313725490196,
+        "PAC_PVC": 0.9405228758169935,
+        "ST": 0.9594771241830066,
+        "Other": 0.5895424836601307
+      },
+      "mean_set_size": 4.258823529411765,
+      "median_set_size": 4.0,
+      "joint_coverage": 0.8764705882352941,
+      "macro_class_coverage": 0.9575377072196084,
+      "marginal_coverage": 0.9575377072196084
+    },
+    "empirical_targets_met": 5,
+    "target_count": 5
   },
   "distribution_shift": {
+    "protocol": "train PTB-XL; test Chapman; harmonized labels; Chapman signals transformed with PTB-XL fitting statistics",
     "in_distribution_macro_class_coverage": 0.9426300719868574,
-    "out_distribution_macro_class_coverage": 0.45516038407033665
+    "out_distribution_macro_class_coverage": 0.45516038407033665,
+    "metrics": {
+      "class_fnr": {
+        "CD": 0.28205128205128205,
+        "STTC": 0.3601895734597157,
+        "NORM": 0.9922779922779923
+      },
+      "class_fpr": {
+        "CD": 0.08951965065502183,
+        "STTC": 0.2585291887793783,
+        "NORM": 0.0
+      },
+      "class_tpr": {
+        "CD": 0.717948717948718,
+        "STTC": 0.6398104265402843,
+        "NORM": 0.007722007722007722
+      },
+      "class_set_pct": {
+        "CD": 0.15359477124183007,
+        "STTC": 0.3111111111111111,
+        "NORM": 0.006535947712418301
+      },
+      "mean_set_size": 0.47124183006535947,
+      "median_set_size": 0.0,
+      "joint_coverage": 0.15294117647058825,
+      "macro_class_coverage": 0.45516038407033665,
+      "marginal_coverage": 0.45516038407033665
+    }
   },
   "subclass_audit": {
     "empirical_targets_met": 23,
     "classes_evaluated": 23,
     "legacy_non_floor_hoeffding_supported": 8,
-    "note": "Exact-binomial recalibration was validated for the nine primary superclass targets; subclasses remain a separate stress-test audit."
-  }
+    "note": "Exact-binomial recalibration was validated for the nine primary superclass targets; subclass figures are reported as a separate stress-test audit."
+  },
+  "full_result_files": [
+    "results/verification_results_20260712_1446.json",
+    "results/exact_binomial_rcps_results_20260712_1459.json"
+  ]
 }

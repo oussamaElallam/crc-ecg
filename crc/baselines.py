@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Mapping
+from typing import Mapping, Optional
 
 import numpy as np
 
@@ -51,7 +51,7 @@ def _positive_quantile_threshold(
     positive = labels[:, k] == 1
     n = int(positive.sum())
     if n < 2:
-        return 0.0
+        return 0.0  # include always when calibration support is absent
     scores = 1.0 - probs[positive, k]
     q = min(float(np.ceil((n + 1) * (1.0 - alpha)) / n), 1.0)
     return float(1.0 - np.quantile(scores, q))
@@ -77,7 +77,7 @@ def baseline_class_matched_cp_multilabel(
     class_alphas: Mapping[int, float],
     default_alpha: float = 0.10,
 ) -> np.ndarray:
-    """Uncorrected CP using the proposed method's class-specific targets."""
+    """Uncorrected CP using the same class-specific targets as the proposed method."""
     probs = np.asarray(probs_cal, dtype=np.float64)
     labels = np.asarray(y_cal)
     if probs.shape != labels.shape or probs.ndim != 2:
