@@ -1,167 +1,287 @@
-"""Multi-Label Conformal Risk Control with Hoeffding finite-sample correction.
+"""Exact-binomial per-class risk control for multi-label classification.
 
-Reference: El Allam & Hamlich (2026), "Per-Class Conformal Risk Control for
-Multi-Label ECG Classification."
-
-Citation acknowledgement: the Hoeffding-style finite-sample correction itself
-appears throughout the conformal-prediction literature — Vovk et al. (2005),
-Romano et al. (2020), Bates et al. (2021), Angelopoulos and Bates (2021).
-Our contribution is its application to multi-label ECG classification with
-clinically-justified per-class alpha targets.
+The primary class uses one-sided Clopper-Pearson upper confidence bounds for
+binary false-negative loss. The submitted Hoeffding-plus-floor rule is retained
+only as ``LegacyHoeffdingCRC`` for transparent audit/ablation.
 """
 
-from typing import Dict, List, Optional
+from __future__ import annotations
+
+from copy import deepcopy
+from typing import Dict, Iterable, Mapping, Optional, Sequence
+
 import numpy as np
+from scipy.stats import beta
 
 
 class MultiLabelCRC:
-    """
-    Multi-label per-class Conformal Risk Control with finite-sample correction.
+    """Per-class exact-binomial RCPS with optional family-wise control."""
 
-    Each class k is treated as an independent binary problem:
-        score_k(x) = 1 - p_k(x)
-    Calibrated on positives for class k: {x_i : y_{i,k} = 1}.
-
-    Hoeffding correction (Vovk 2005, Bates 2021, Romano 2020, Angelopoulos 2021):
-        alpha_effective = alpha_k - sqrt(log(1/delta) / (2 n_k))
-    gives a high-probability (1 - delta) guarantee that FNR_k <= alpha_k.
-    """
-
-    def __init__(self, default_alpha: float = 0.10, confidence: float = 0.95,
-                 finite_sample_correction: bool = True):
-        self.default_alpha = default_alpha
-        self.confidence = confidence
-        self.delta = 1 - confidence
-        self.finite_sample_correction = finite_sample_correction
+    def __init__(
+        self,
+        default_alpha: float = 0.10,
+        confidence: float = 0.95,
+        simultaneous: bool = True,
+        family_size: Optional[int] = None,
+    ) -> None:
+        if not 0.0 < default_alpha < 1.0:
+            raise ValueError("default_alpha must be between 0 and 1")
+        if not 0.0 < confidence < 1.0:
+            raise ValueError("confidence must be between 0 and 1")
+        if family_size is not None and family_size < 1:
+            raise ValueError("family_size must be positive")
+        self.default_alpha = float(default_alpha)
+        self.confidence = float(confidence)
+        self.simultaneous = bool(simultaneous)
+        self.family_size = family_size
         self.lambdas: Dict[int, float] = {}
         self.calibration_info: Dict[int, Dict] = {}
 
-    # ---------------- Calibration ----------------
+    @staticmethod
+    def exact_upper_bound(misses: int, n: int, delta: float) -> float:
+        """One-sided ``1-delta`` Clopper-Pearson upper bound."""
+        if n <= 0:
+            return 1.0
+        if not 0 <= misses <= n:
+            raise ValueError("misses must lie between 0 and n")
+        if not 0.0 < delta < 1.0:
+            raise ValueError("delta must be between 0 and 1")
+        if misses == n:
+            return 1.0
+        return float(beta.ppf(1.0 - delta, misses + 1, n - misses))
 
-    def calibrate(self, probs_cal: np.ndarray, y_cal: np.ndarray,
-                  class_alphas: Optional[Dict[int, float]] = None) -> Dict[int, float]:
-        """
-        Args:
-            probs_cal: [n_cal, K] sigmoid probabilities
-            y_cal: [n_cal, K] multi-hot true labels
-            class_alphas: {k: alpha_k} per-class FNR targets
-        """
-        n_cal, K = probs_cal.shape
-        if class_alphas is None:
-            class_alphas = {k: self.default_alpha for k in range(K)}
+    def calibrate(
+        self,
+        probs_cal: np.ndarray,
+        y_cal: np.ndarray,
+        class_alphas: Optional[Mapping[int, float]] = None,
+        *,
+        controlled_classes: Optional[Iterable[int]] = None,
+        guard_lambdas: Optional[Mapping[int, float]] = None,
+    ) -> Dict[int, float]:
+        """Calibrate monotone per-class thresholds using calibration data only."""
+        probs = np.asarray(probs_cal, dtype=np.float64)
+        labels = np.asarray(y_cal)
+        if probs.ndim != 2 or labels.ndim != 2 or probs.shape != labels.shape:
+            raise ValueError("probs_cal and y_cal must be equal-shaped 2-D arrays")
+        if not np.isfinite(probs).all():
+            raise ValueError("probs_cal contains NaN or infinite values")
 
+        k_count = probs.shape[1]
+        alphas = {
+            k: float((class_alphas or {}).get(k, self.default_alpha))
+            for k in range(k_count)
+        }
+        controlled = (
+            set(range(k_count))
+            if controlled_classes is None
+            else {int(k) for k in controlled_classes}
+        )
+        if not controlled.issubset(set(range(k_count))):
+            raise ValueError("controlled_classes contains an invalid index")
+
+        family_size = self.family_size or max(len(controlled), 1)
+        family_delta = 1.0 - self.confidence
+        controlled_delta = (
+            family_delta / family_size if self.simultaneous else family_delta
+        )
         self.lambdas = {}
         self.calibration_info = {}
 
-        for k in range(K):
-            pos_mask = y_cal[:, k] == 1
-            n_k = int(pos_mask.sum())
-            alpha_k = class_alphas.get(k, self.default_alpha)
+        for k in range(k_count):
+            alpha = alphas[k]
+            if not 0.0 < alpha < 1.0:
+                raise ValueError(f"alpha for class {k} must be between 0 and 1")
+            positive = labels[:, k] == 1
+            scores = np.clip(1.0 - probs[positive, k], 0.0, 1.0)
+            n = int(scores.size)
+            is_controlled = k in controlled
+            delta = controlled_delta if is_controlled else family_delta
 
-            if n_k < 2:
-                self.lambdas[k] = 1.0  # no positives -> include always (vacuous)
-                self.calibration_info[k] = dict(
-                    n_cal=n_k, alpha_target=alpha_k, alpha_effective=alpha_k,
-                    correction=0.0, threshold=1.0, vacuous=True,
-                )
-                continue
-
-            # Nonconformity scores on positives
-            scores_k = 1 - probs_cal[pos_mask, k]
-
-            # Hoeffding correction
-            if self.finite_sample_correction and n_k >= 10:
-                correction = np.sqrt(np.log(1 / self.delta) / (2 * n_k))
-                alpha_effective = max(0.005, alpha_k - correction)
+            if n == 0:
+                lam, misses, ucb = 1.0, 0, 0.0
+                status, vacuous = "include-always: no positives", True
             else:
-                correction = 0.0
-                alpha_effective = alpha_k
+                selected = None
+                for lam_candidate in np.unique(
+                    np.concatenate(([0.0], scores.astype(float), [1.0]))
+                ):
+                    misses_candidate = int(np.count_nonzero(scores > lam_candidate))
+                    ucb_candidate = self.exact_upper_bound(
+                        misses_candidate, n, delta
+                    )
+                    if ucb_candidate <= alpha:
+                        selected = (
+                            float(lam_candidate), misses_candidate, ucb_candidate
+                        )
+                        break
+                if selected is None:
+                    lam, misses = 1.0, 0
+                    ucb = self.exact_upper_bound(0, n, delta)
+                    status, vacuous = "include-always fallback", True
+                else:
+                    lam, misses, ucb = selected
+                    status = (
+                        "simultaneous exact-binomial RCPS"
+                        if self.simultaneous and is_controlled
+                        else "per-class exact-binomial RCPS"
+                    )
+                    vacuous = bool(lam >= 1.0 - 1e-15)
 
-            # Conformal quantile (Romano et al. 2020)
-            q_level = np.ceil((n_k + 1) * (1 - alpha_effective)) / n_k
-            q_level = float(min(q_level, 1.0))
-            lam_k = float(np.quantile(scores_k, q_level))
+            minimal_lam = float(lam)
+            guard = None
+            if guard_lambdas is not None and k in guard_lambdas:
+                guard = float(guard_lambdas[k])
+                lam = max(float(lam), guard)
+                if n:
+                    misses = int(np.count_nonzero(scores > lam))
+                    ucb = self.exact_upper_bound(misses, n, delta)
+                if guard > minimal_lam:
+                    status += " with conservative safeguard"
 
-            self.lambdas[k] = lam_k
-            self.calibration_info[k] = dict(
-                n_cal=n_k, alpha_target=alpha_k, alpha_effective=alpha_effective,
-                correction=correction, threshold=lam_k, vacuous=False,
+            self.lambdas[k] = float(lam)
+            self.calibration_info[k] = {
+                "n_cal": n,
+                "alpha_target": alpha,
+                "delta": float(delta),
+                "confidence": float(1.0 - delta),
+                "controlled": is_controlled,
+                "family_size": family_size if is_controlled else None,
+                "threshold": float(lam),
+                "probability_threshold": float(1.0 - lam),
+                "calibration_misses": int(misses),
+                "calibration_fnr": float(misses / n) if n else 0.0,
+                "exact_ucb": float(ucb),
+                "vacuous": bool(vacuous),
+                "guarantee_valid": bool(
+                    is_controlled and (n == 0 or ucb <= alpha + 1e-12)
+                ),
+                "minimal_exact_threshold": minimal_lam,
+                "guard_threshold": guard,
+                "guard_applied": bool(guard is not None and guard > minimal_lam),
+                "status": status,
+            }
+        return dict(self.lambdas)
+
+    def guarded_copy(
+        self,
+        guard_lambdas: Mapping[int, float],
+        probs_cal: np.ndarray,
+        y_cal: np.ndarray,
+    ) -> "MultiLabelCRC":
+        """Return a more-inclusive copy and recompute its calibration UCBs."""
+        if not self.lambdas:
+            raise RuntimeError("calibrate before calling guarded_copy")
+        guarded = deepcopy(self)
+        probs = np.asarray(probs_cal, dtype=float)
+        labels = np.asarray(y_cal)
+        for k, old_lam in self.lambdas.items():
+            new_lam = max(float(old_lam), float(guard_lambdas.get(k, old_lam)))
+            scores = np.clip(1.0 - probs[labels[:, k] == 1, k], 0.0, 1.0)
+            n = int(scores.size)
+            misses = int(np.count_nonzero(scores > new_lam)) if n else 0
+            delta = guarded.calibration_info[k]["delta"]
+            ucb = self.exact_upper_bound(misses, n, delta) if n else 0.0
+            guarded.lambdas[k] = new_lam
+            guarded.calibration_info[k].update(
+                threshold=new_lam,
+                probability_threshold=1.0 - new_lam,
+                calibration_misses=misses,
+                calibration_fnr=(misses / n if n else 0.0),
+                exact_ucb=ucb,
+                guard_threshold=float(guard_lambdas.get(k, old_lam)),
+                guard_applied=new_lam > old_lam,
+                status="exact-binomial RCPS with conservative safeguard",
             )
-
-        return self.lambdas
-
-    # ---------------- Prediction ----------------
+        return guarded
 
     def predict(self, probs: np.ndarray) -> np.ndarray:
-        """Return multi-hot prediction array [n, K]."""
-        K = probs.shape[1]
-        thr = np.array([1 - self.lambdas[k] for k in range(K)])  # include if p_k >= 1 - lambda_k
-        return (probs >= thr[None, :]).astype(int)
-
-    # ---------------- Metrics ----------------
+        probabilities = np.asarray(probs, dtype=float)
+        if probabilities.ndim != 2:
+            raise ValueError("probs must be a 2-D array")
+        if len(self.lambdas) != probabilities.shape[1]:
+            raise RuntimeError("calibrate before prediction")
+        thresholds = np.array(
+            [1.0 - self.lambdas[k] for k in range(probabilities.shape[1])]
+        )
+        return (probabilities >= thresholds[None, :]).astype(np.int8)
 
     @staticmethod
-    def compute_metrics(pred: np.ndarray, y_true: np.ndarray,
-                        class_names: List[str]) -> Dict:
-        """
-        FNR_k, FPR_k, set size, joint coverage, marginal coverage.
-        """
-        n, K = pred.shape
-        out = dict(class_fnr={}, class_fpr={}, class_tpr={}, class_set_pct={})
-
-        for k in range(K):
-            pos = y_true[:, k] == 1
-            neg = y_true[:, k] == 0
-            if pos.sum() > 0:
-                out['class_fnr'][class_names[k]] = float(1 - pred[pos, k].mean())
-                out['class_tpr'][class_names[k]] = float(pred[pos, k].mean())
-            if neg.sum() > 0:
-                out['class_fpr'][class_names[k]] = float(pred[neg, k].mean())
-            out['class_set_pct'][class_names[k]] = float(pred[:, k].mean())
-
-        set_sizes = pred.sum(axis=1)
-        joint_covered = np.all((pred >= y_true), axis=1)  # all positives captured
-        out['mean_set_size'] = float(set_sizes.mean())
-        out['median_set_size'] = float(np.median(set_sizes))
-        out['joint_coverage'] = float(joint_covered.mean())
-        out['marginal_coverage'] = float(np.mean(list(out['class_tpr'].values())))
+    def compute_metrics(
+        pred: np.ndarray, y_true: np.ndarray, class_names: Sequence[str]
+    ) -> Dict:
+        predictions = np.asarray(pred)
+        labels = np.asarray(y_true)
+        if predictions.shape != labels.shape or predictions.ndim != 2:
+            raise ValueError("pred and y_true must be equal-shaped 2-D arrays")
+        out = {"class_fnr": {}, "class_fpr": {}, "class_tpr": {},
+               "class_set_pct": {}}
+        for k, name in enumerate(class_names):
+            pos = labels[:, k] == 1
+            neg = labels[:, k] == 0
+            if pos.any():
+                tpr = float(predictions[pos, k].mean())
+                out["class_tpr"][name] = tpr
+                out["class_fnr"][name] = 1.0 - tpr
+            if neg.any():
+                out["class_fpr"][name] = float(predictions[neg, k].mean())
+            out["class_set_pct"][name] = float(predictions[:, k].mean())
+        sizes = predictions.sum(axis=1)
+        out["mean_set_size"] = float(sizes.mean())
+        out["median_set_size"] = float(np.median(sizes))
+        out["joint_coverage"] = float(np.all(predictions >= labels, axis=1).mean())
+        macro = float(np.mean(list(out["class_tpr"].values())))
+        out["macro_class_coverage"] = macro
+        out["marginal_coverage"] = macro
         return out
 
-    @staticmethod
-    def bootstrap_ci(pred: np.ndarray, y_true: np.ndarray, class_names: List[str],
-                     n_boot: int = 1000, seed: int = 42) -> Dict:
-        """95% bootstrap CIs on per-class FNR and FPR."""
-        rng = np.random.default_rng(seed)
-        n = len(y_true)
-        fnr_boot = {c: [] for c in class_names}
-        fpr_boot = {c: [] for c in class_names}
-        for _ in range(n_boot):
-            idx = rng.integers(0, n, n)
-            m = MultiLabelCRC.compute_metrics(pred[idx], y_true[idx], class_names)
-            for c in class_names:
-                if c in m['class_fnr']:
-                    fnr_boot[c].append(m['class_fnr'][c])
-                if c in m['class_fpr']:
-                    fpr_boot[c].append(m['class_fpr'][c])
-        ci = dict(fnr={}, fpr={})
-        for c in class_names:
-            if fnr_boot[c]:
-                ci['fnr'][c] = (float(np.percentile(fnr_boot[c], 2.5)),
-                                float(np.percentile(fnr_boot[c], 97.5)))
-            if fpr_boot[c]:
-                ci['fpr'][c] = (float(np.percentile(fpr_boot[c], 2.5)),
-                                float(np.percentile(fpr_boot[c], 97.5)))
-        return ci
 
-    def print_calibration_report(self, class_names: List[str]):
-        print("\n" + "="*78)
-        print("MULTI-LABEL CRC CALIBRATION REPORT (Hoeffding-corrected, 95% conf.)")
-        print("="*78)
-        print(f"{'Class':<10}{'n_pos':>8}{'alpha':>10}{'alpha_eff':>12}"
-              f"{'correction':>12}{'lambda':>10}")
-        print("-"*78)
-        for k, info in self.calibration_info.items():
-            print(f"{class_names[k]:<10}{info['n_cal']:>8}{info['alpha_target']:>10.1%}"
-                  f"{info['alpha_effective']:>12.1%}{info['correction']:>12.4f}"
-                  f"{info['threshold']:>10.4f}")
-        print("="*78)
+class LegacyHoeffdingCRC:
+    """Submitted Hoeffding-plus-floor rule, retained for ablation only."""
+
+    def __init__(self, default_alpha: float = 0.10, confidence: float = 0.95):
+        self.default_alpha = default_alpha
+        self.delta = 1.0 - confidence
+        self.lambdas: Dict[int, float] = {}
+        self.calibration_info: Dict[int, Dict] = {}
+
+    def calibrate(
+        self,
+        probs_cal: np.ndarray,
+        y_cal: np.ndarray,
+        class_alphas: Optional[Mapping[int, float]] = None,
+    ) -> Dict[int, float]:
+        probs = np.asarray(probs_cal, dtype=float)
+        labels = np.asarray(y_cal)
+        self.lambdas = {}
+        self.calibration_info = {}
+        for k in range(probs.shape[1]):
+            pos = labels[:, k] == 1
+            n = int(pos.sum())
+            alpha = float((class_alphas or {}).get(k, self.default_alpha))
+            if n < 2:
+                lam, floor_active, correction = 1.0, False, 0.0
+            else:
+                correction = float(np.sqrt(np.log(1.0 / self.delta) / (2.0 * n)))
+                raw = alpha - correction
+                floor_active = raw < 0.005
+                alpha_eff = max(0.005, raw)
+                q = min(float(np.ceil((n + 1) * (1 - alpha_eff)) / n), 1.0)
+                lam = float(np.quantile(1.0 - probs[pos, k], q))
+            self.lambdas[k] = lam
+            self.calibration_info[k] = {
+                "n_cal": n,
+                "alpha_target": alpha,
+                "correction": correction,
+                "threshold": lam,
+                "floor_active": floor_active,
+                "guarantee_valid": not floor_active and n >= 2,
+            }
+        return dict(self.lambdas)
+
+    def predict(self, probs: np.ndarray) -> np.ndarray:
+        probabilities = np.asarray(probs, dtype=float)
+        thresholds = np.array(
+            [1.0 - self.lambdas[k] for k in range(probabilities.shape[1])]
+        )
+        return (probabilities >= thresholds[None, :]).astype(np.int8)
