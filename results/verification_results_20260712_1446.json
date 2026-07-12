@@ -1,0 +1,1644 @@
+{
+  "meta": {
+    "notebook": "multilabel_crc_ecg_VERIFICATION_CORRECTED.ipynb",
+    "paper": "Per-Class Conformal Risk Control for Multi-Label ECG Classification",
+    "date": "2026-07-12",
+    "revision": "patient-disjoint PTB-XL split, fitting-only normalization, correct cross-site preprocessing, explicit floor flags",
+    "seed": 42
+  },
+  "ptbxl": {
+    "classes": [
+      "CD",
+      "HYP",
+      "MI",
+      "NORM",
+      "STTC"
+    ],
+    "class_alphas": {
+      "CD": 0.1,
+      "HYP": 0.15,
+      "MI": 0.05,
+      "NORM": 0.15,
+      "STTC": 0.05
+    },
+    "n_total_retained": 21388,
+    "n_train": 15046,
+    "n_fit": 13541,
+    "n_validation": 1505,
+    "n_cal": 3144,
+    "n_test": 3198,
+    "patient_disjoint": true,
+    "normalization_source": "PTB-XL fitting partition only",
+    "avg_labels_per_sample": 1.298157845520853,
+    "multilabel_pct": 0.24050869646530765,
+    "macro_auroc": 0.9293832764184552,
+    "crc_metrics": {
+      "class_fnr": {
+        "CD": 0.06424581005586594,
+        "HYP": 0.09307875894988071,
+        "MI": 0.0,
+        "NORM": 0.11914893617021272,
+        "STTC": 0.01037613488975353
+      },
+      "class_fpr": {
+        "CD": 0.38759065269943593,
+        "HYP": 0.28067650233897085,
+        "MI": 0.8030625265844321,
+        "NORM": 0.10794183445190157,
+        "STTC": 0.6802637000412032
+      },
+      "class_tpr": {
+        "CD": 0.9357541899441341,
+        "HYP": 0.9069212410501193,
+        "MI": 1.0,
+        "NORM": 0.8808510638297873,
+        "STTC": 0.9896238651102465
+      },
+      "class_set_pct": {
+        "CD": 0.5103189493433395,
+        "HYP": 0.3627267041901188,
+        "MI": 0.8552220137585991,
+        "NORM": 0.44871794871794873,
+        "STTC": 0.7548467792370231
+      },
+      "mean_set_size": 2.9318323952470293,
+      "median_set_size": 3.0,
+      "joint_coverage": 0.9190118824265165,
+      "macro_class_coverage": 0.9426300719868574,
+      "marginal_coverage": 0.9426300719868574
+    },
+    "crc_bootstrap_ci": {
+      "fnr": {
+        "CD": [
+          0.04837430175068586,
+          0.08454953959171181
+        ],
+        "HYP": [
+          0.06648489049557772,
+          0.12361722283339444
+        ],
+        "MI": [
+          0.0,
+          0.0
+        ],
+        "NORM": [
+          0.10350892098555653,
+          0.13873269424113885
+        ],
+        "STTC": [
+          0.00396405504022819,
+          0.01720772451732717
+        ]
+      },
+      "fpr": {
+        "CD": [
+          0.3678746061879378,
+          0.40509418205437503
+        ],
+        "HYP": [
+          0.2626536094866512,
+          0.2967927014130549
+        ],
+        "MI": [
+          0.786782448238427,
+          0.8185303941803674
+        ],
+        "NORM": [
+          0.09352224507328248,
+          0.12403454793802342
+        ],
+        "STTC": [
+          0.6609948320759121,
+          0.6976469409152584
+        ]
+      }
+    },
+    "crc_calibration_status": {
+      "CD": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "HYP": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "MI": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "NORM": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "STTC": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      }
+    },
+    "baselines": {
+      "threshold_0.5": {
+        "class_fnr": {
+          "CD": 0.3561452513966481,
+          "HYP": 0.5584725536992841,
+          "MI": 0.3341204250295159,
+          "NORM": 0.08936170212765959,
+          "STTC": 0.3138780804150454
+        },
+        "class_fpr": {
+          "CD": 0.029008863819500404,
+          "HYP": 0.01727240014393667,
+          "MI": 0.04593789876648235,
+          "NORM": 0.15156599552572708,
+          "STTC": 0.06139266584260404
+        },
+        "class_tpr": {
+          "CD": 0.6438547486033519,
+          "HYP": 0.441527446300716,
+          "MI": 0.6658795749704841,
+          "NORM": 0.9106382978723404,
+          "STTC": 0.6861219195849546
+        },
+        "class_set_pct": {
+          "CD": 0.16666666666666666,
+          "HYP": 0.07285803627267042,
+          "MI": 0.2101313320825516,
+          "NORM": 0.48624140087554724,
+          "STTC": 0.21200750469043153
+        },
+        "mean_set_size": 1.1479049405878674,
+        "median_set_size": 1.0,
+        "joint_coverage": 0.6841776110068793,
+        "macro_class_coverage": 0.6696043974663695,
+        "marginal_coverage": 0.6696043974663695
+      },
+      "threshold_0.3": {
+        "class_fnr": {
+          "CD": 0.2472067039106145,
+          "HYP": 0.4009546539379475,
+          "MI": 0.21015348288075564,
+          "NORM": 0.04822695035460989,
+          "STTC": 0.15304798962386512
+        },
+        "class_fpr": {
+          "CD": 0.08380338436744561,
+          "HYP": 0.05397625044980209,
+          "MI": 0.09357720119098256,
+          "NORM": 0.22539149888143176,
+          "STTC": 0.1211372064276885
+        },
+        "class_tpr": {
+          "CD": 0.7527932960893855,
+          "HYP": 0.5990453460620525,
+          "MI": 0.7898465171192444,
+          "NORM": 0.9517730496453901,
+          "STTC": 0.8469520103761349
+        },
+        "class_set_pct": {
+          "CD": 0.23358348968105067,
+          "HYP": 0.1253908692933083,
+          "MI": 0.2779862414008755,
+          "NORM": 0.5456535334584115,
+          "STTC": 0.2961225766103815
+        },
+        "mean_set_size": 1.4787367104440274,
+        "median_set_size": 1.0,
+        "joint_coverage": 0.793933708567855,
+        "macro_class_coverage": 0.7880820438584416,
+        "marginal_coverage": 0.7880820438584416
+      },
+      "per_class_f1_tuned": {
+        "class_fnr": {
+          "CD": 0.2667597765363129,
+          "HYP": 0.4486873508353222,
+          "MI": 0.21015348288075564,
+          "NORM": 0.10780141843971636,
+          "STTC": 0.19455252918287935
+        },
+        "class_fpr": {
+          "CD": 0.06607574536663981,
+          "HYP": 0.041381792011514935,
+          "MI": 0.09357720119098256,
+          "NORM": 0.11409395973154363,
+          "STTC": 0.10259579728059333
+        },
+        "class_tpr": {
+          "CD": 0.7332402234636871,
+          "HYP": 0.5513126491646778,
+          "MI": 0.7898465171192444,
+          "NORM": 0.8921985815602836,
+          "STTC": 0.8054474708171206
+        },
+        "class_set_pct": {
+          "CD": 0.21544715447154472,
+          "HYP": 0.10819262038774234,
+          "MI": 0.2779862414008755,
+          "NORM": 0.45716072545340836,
+          "STTC": 0.27204502814258913
+        },
+        "mean_set_size": 1.33083176985616,
+        "median_set_size": 1.0,
+        "joint_coverage": 0.7514071294559099,
+        "macro_class_coverage": 0.7544090884250026,
+        "marginal_coverage": 0.7544090884250026
+      },
+      "uniform_standard_cp": {
+        "class_fnr": {
+          "CD": 0.12569832402234637,
+          "HYP": 0.09546539379474939,
+          "MI": 0.10507674144037782,
+          "NORM": 0.09716312056737586,
+          "STTC": 0.09727626459143968
+        },
+        "class_fpr": {
+          "CD": 0.21796937953263498,
+          "HYP": 0.2612450521770421,
+          "MI": 0.2403232666950234,
+          "NORM": 0.12695749440715884,
+          "STTC": 0.17593737124021425
+        },
+        "class_tpr": {
+          "CD": 0.8743016759776536,
+          "HYP": 0.9045346062052506,
+          "MI": 0.8949232585596222,
+          "NORM": 0.9028368794326241,
+          "STTC": 0.9027237354085603
+        },
+        "class_set_pct": {
+          "CD": 0.3649155722326454,
+          "HYP": 0.34552845528455284,
+          "MI": 0.41369606003752346,
+          "NORM": 0.46904315196998125,
+          "STTC": 0.3511569731081926
+        },
+        "mean_set_size": 1.9443402126328955,
+        "median_set_size": 2.0,
+        "joint_coverage": 0.868042526579112,
+        "macro_class_coverage": 0.8958640311167422,
+        "marginal_coverage": 0.8958640311167422
+      }
+    },
+    "empirical_targets_met_crc": 4,
+    "non_floor_guaranteed_targets_met_crc": 4,
+    "targets_met_uniform_cp": 1,
+    "fnr_classes_count": 4
+  },
+  "chapman": {
+    "classes": [
+      "Normal",
+      "AF",
+      "CD",
+      "PAC_PVC",
+      "ST",
+      "Other"
+    ],
+    "class_alphas": {
+      "Normal": 0.15,
+      "AF": 0.05,
+      "CD": 0.1,
+      "PAC_PVC": 0.1,
+      "ST": 0.05,
+      "Other": 0.15
+    },
+    "n_total_retained": 10199,
+    "n_train": 7139,
+    "n_fit": 6425,
+    "n_validation": 714,
+    "n_cal": 1530,
+    "n_test": 1530,
+    "normalization_source": "Chapman fitting partition only",
+    "avg_labels_per_sample": 1.578586135895676,
+    "multilabel_pct": 0.41582508089028336,
+    "crc_metrics": {
+      "class_fnr": {
+        "Normal": 0.11196911196911197,
+        "AF": 0.00303030303030305,
+        "CD": 0.0064102564102563875,
+        "PAC_PVC": 0.012345679012345734,
+        "ST": 0.004739336492891044,
+        "Other": 0.11627906976744184
+      },
+      "class_fpr": {
+        "Normal": 0.08085106382978724,
+        "AF": 0.1425,
+        "CD": 0.6426491994177583,
+        "PAC_PVC": 0.937888198757764,
+        "ST": 0.9537528430629265,
+        "Other": 0.5042158516020236
+      },
+      "class_tpr": {
+        "Normal": 0.888030888030888,
+        "AF": 0.996969696969697,
+        "CD": 0.9935897435897436,
+        "PAC_PVC": 0.9876543209876543,
+        "ST": 0.995260663507109,
+        "Other": 0.8837209302325582
+      },
+      "class_set_pct": {
+        "Normal": 0.7640522875816993,
+        "AF": 0.32679738562091504,
+        "CD": 0.6784313725490196,
+        "PAC_PVC": 0.9405228758169935,
+        "ST": 0.9594771241830066,
+        "Other": 0.5895424836601307
+      },
+      "mean_set_size": 4.258823529411765,
+      "median_set_size": 4.0,
+      "joint_coverage": 0.8764705882352941,
+      "macro_class_coverage": 0.9575377072196084,
+      "marginal_coverage": 0.9575377072196084
+    },
+    "crc_bootstrap_ci": {
+      "fnr": {
+        "Normal": [
+          0.09484689105657912,
+          0.12820827489481065
+        ],
+        "AF": [
+          0.0,
+          0.009824643178603563
+        ],
+        "CD": [
+          0.0,
+          0.02183268091409225
+        ],
+        "PAC_PVC": [
+          0.0,
+          0.039230177717019823
+        ],
+        "ST": [
+          0.0,
+          0.015436627538071079
+        ],
+        "Other": [
+          0.08254767360571692,
+          0.14866933259790405
+        ]
+      },
+      "fpr": {
+        "Normal": [
+          0.04927646225460433,
+          0.11828919609149455
+        ],
+        "AF": [
+          0.11979283684777003,
+          0.16134372369016187
+        ],
+        "CD": [
+          0.6173112713183219,
+          0.6685039643713763
+        ],
+        "PAC_PVC": [
+          0.9258192866795719,
+          0.9498624457166135
+        ],
+        "ST": [
+          0.9426546238077756,
+          0.9653997975708503
+        ],
+        "Other": [
+          0.47737613307287646,
+          0.5310352207084701
+        ]
+      }
+    },
+    "crc_calibration_status": {
+      "Normal": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "AF": {
+        "feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "CD": {
+        "feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "PAC_PVC": {
+        "feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "ST": {
+        "feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "Other": {
+        "feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      }
+    },
+    "baselines": {
+      "uniform_standard_cp": {
+        "class_fnr": {
+          "Normal": 0.1019305019305019,
+          "AF": 0.036363636363636376,
+          "CD": 0.09615384615384615,
+          "PAC_PVC": 0.06172839506172845,
+          "ST": 0.12796208530805686,
+          "Other": 0.125
+        },
+        "class_fpr": {
+          "Normal": 0.14893617021276595,
+          "AF": 0.049166666666666664,
+          "CD": 0.16739446870451238,
+          "PAC_PVC": 0.6349206349206349,
+          "ST": 0.41243366186504926,
+          "Other": 0.45699831365935917
+        },
+        "class_tpr": {
+          "Normal": 0.8980694980694981,
+          "AF": 0.9636363636363636,
+          "CD": 0.9038461538461539,
+          "PAC_PVC": 0.9382716049382716,
+          "ST": 0.8720379146919431,
+          "Other": 0.875
+        },
+        "class_set_pct": {
+          "Normal": 0.7830065359477124,
+          "AF": 0.24640522875816995,
+          "CD": 0.24248366013071895,
+          "PAC_PVC": 0.6509803921568628,
+          "ST": 0.47581699346405226,
+          "Other": 0.5509803921568628
+        },
+        "mean_set_size": 2.9496732026143793,
+        "median_set_size": 3.0,
+        "joint_coverage": 0.8522875816993464,
+        "macro_class_coverage": 0.9084769225303718,
+        "marginal_coverage": 0.9084769225303718
+      }
+    },
+    "empirical_targets_met_crc": 5,
+    "non_floor_guaranteed_targets_met_crc": 1,
+    "targets_met_uniform_cp": 4,
+    "fnr_classes_count": 5
+  },
+  "distribution_shift": {
+    "protocol": "train PTB-XL; test Chapman; harmonized labels; Chapman signals transformed with PTB-XL fitting statistics",
+    "harmonized_classes": [
+      "CD",
+      "STTC",
+      "NORM"
+    ],
+    "metrics": {
+      "class_fnr": {
+        "CD": 0.28205128205128205,
+        "STTC": 0.3601895734597157,
+        "NORM": 0.9922779922779923
+      },
+      "class_fpr": {
+        "CD": 0.08951965065502183,
+        "STTC": 0.2585291887793783,
+        "NORM": 0.0
+      },
+      "class_tpr": {
+        "CD": 0.717948717948718,
+        "STTC": 0.6398104265402843,
+        "NORM": 0.007722007722007722
+      },
+      "class_set_pct": {
+        "CD": 0.15359477124183007,
+        "STTC": 0.3111111111111111,
+        "NORM": 0.006535947712418301
+      },
+      "mean_set_size": 0.47124183006535947,
+      "median_set_size": 0.0,
+      "joint_coverage": 0.15294117647058825,
+      "macro_class_coverage": 0.45516038407033665,
+      "marginal_coverage": 0.45516038407033665
+    },
+    "in_distribution_macro_class_coverage": 0.9426300719868574,
+    "out_distribution_macro_class_coverage": 0.45516038407033665,
+    "interpretation": "combined covariate and label-definition shift"
+  },
+  "pareto": [
+    {
+      "alpha": 0.02,
+      "mean_set_size": 4.193245778611632,
+      "marginal_coverage": 0.9975370955609895,
+      "class_fnr": {
+        "CD": 0.005586592178770999,
+        "HYP": 0.0,
+        "MI": 0.0,
+        "NORM": 0.0028368794326241176,
+        "STTC": 0.0038910505836575737
+      }
+    },
+    {
+      "alpha": 0.05,
+      "mean_set_size": 4.016572858036272,
+      "marginal_coverage": 0.9935450432387775,
+      "class_fnr": {
+        "CD": 0.005586592178770999,
+        "HYP": 0.0,
+        "MI": 0.0,
+        "NORM": 0.01631205673758862,
+        "STTC": 0.01037613488975353
+      }
+    },
+    {
+      "alpha": 0.1,
+      "mean_set_size": 2.438398999374609,
+      "marginal_coverage": 0.9441705145621944,
+      "class_fnr": {
+        "CD": 0.06424581005586594,
+        "HYP": 0.03341288782816232,
+        "MI": 0.05430932703659974,
+        "NORM": 0.07659574468085106,
+        "STTC": 0.05058365758754868
+      }
+    },
+    {
+      "alpha": 0.15,
+      "mean_set_size": 1.8799249530956847,
+      "marginal_coverage": 0.8845912989906607,
+      "class_fnr": {
+        "CD": 0.138268156424581,
+        "HYP": 0.09307875894988071,
+        "MI": 0.12278630460448647,
+        "NORM": 0.11914893617021272,
+        "STTC": 0.10376134889753563
+      }
+    },
+    {
+      "alpha": 0.2,
+      "mean_set_size": 1.6319574734208881,
+      "marginal_coverage": 0.8432961005994868,
+      "class_fnr": {
+        "CD": 0.18296089385474856,
+        "HYP": 0.1288782816229117,
+        "MI": 0.14521841794569068,
+        "NORM": 0.17730496453900713,
+        "STTC": 0.14915693904020755
+      }
+    },
+    {
+      "alpha": 0.3,
+      "mean_set_size": 1.2560975609756098,
+      "marginal_coverage": 0.7433696695870211,
+      "class_fnr": {
+        "CD": 0.28910614525139666,
+        "HYP": 0.21718377088305485,
+        "MI": 0.23022432113341207,
+        "NORM": 0.2872340425531915,
+        "STTC": 0.25940337224383914
+      }
+    }
+  ],
+  "combined_summary": {
+    "total_fnr_targets": 9,
+    "empirical_crc_targets_met": 9,
+    "non_floor_guaranteed_crc_targets_met": 5,
+    "uniform_cp_targets_met": 5
+  },
+  "cooccurrence": {
+    "ptbxl_counts": [
+      [
+        4898,
+        787,
+        1794,
+        415,
+        1066
+      ],
+      [
+        787,
+        2649,
+        818,
+        5,
+        1509
+      ],
+      [
+        1794,
+        818,
+        5469,
+        1,
+        1339
+      ],
+      [
+        415,
+        5,
+        1,
+        9514,
+        33
+      ],
+      [
+        1066,
+        1509,
+        1339,
+        33,
+        5235
+      ]
+    ],
+    "ptbxl_conditional": [
+      [
+        1.0,
+        0.1606778276847693,
+        0.36627194773376887,
+        0.0847284605961617,
+        0.217639853001225
+      ],
+      [
+        0.29709324273310683,
+        1.0,
+        0.30879577198943,
+        0.001887504718761797,
+        0.5696489241223103
+      ],
+      [
+        0.32803071859572136,
+        0.14957030535746937,
+        1.0,
+        0.00018284878405558602,
+        0.2448345218504297
+      ],
+      [
+        0.043619928526382176,
+        0.0005255413075467731,
+        0.00010510826150935464,
+        1.0,
+        0.003468572629808703
+      ],
+      [
+        0.20362941738299906,
+        0.2882521489971347,
+        0.25577841451766953,
+        0.006303724928366762,
+        1.0
+      ]
+    ],
+    "chapman_counts": [
+      [
+        8635,
+        728,
+        776,
+        428,
+        1093,
+        1582
+      ],
+      [
+        728,
+        2225,
+        347,
+        167,
+        606,
+        763
+      ],
+      [
+        776,
+        347,
+        1040,
+        88,
+        211,
+        239
+      ],
+      [
+        428,
+        167,
+        88,
+        549,
+        155,
+        184
+      ],
+      [
+        1093,
+        606,
+        211,
+        155,
+        1526,
+        528
+      ],
+      [
+        1582,
+        763,
+        239,
+        184,
+        528,
+        2125
+      ]
+    ],
+    "chapman_conditional": [
+      [
+        1.0,
+        0.08430804863925884,
+        0.08986682107701216,
+        0.04956572090330052,
+        0.1265778807180081,
+        0.18320787492762014
+      ],
+      [
+        0.32719101123595506,
+        1.0,
+        0.1559550561797753,
+        0.0750561797752809,
+        0.2723595505617977,
+        0.34292134831460674
+      ],
+      [
+        0.7461538461538462,
+        0.33365384615384613,
+        1.0,
+        0.08461538461538462,
+        0.20288461538461539,
+        0.2298076923076923
+      ],
+      [
+        0.7795992714025501,
+        0.30418943533697634,
+        0.16029143897996356,
+        1.0,
+        0.28233151183970856,
+        0.33515482695810567
+      ],
+      [
+        0.716251638269987,
+        0.39711664482306686,
+        0.1382699868938401,
+        0.10157273918741809,
+        1.0,
+        0.34600262123197906
+      ],
+      [
+        0.7444705882352941,
+        0.35905882352941176,
+        0.11247058823529411,
+        0.08658823529411765,
+        0.2484705882352941,
+        1.0
+      ]
+    ],
+    "ptbxl_multilabel_pct": 0.24050869646530765,
+    "chapman_multilabel_pct": 0.41582508089028336
+  },
+  "aggregate_metrics": {
+    "ptbxl": {
+      "Threshold 0.5": {
+        "macro_f1": 0.7289064620030674,
+        "micro_f1": 0.7717641051825377,
+        "samples_f1": 0.7608907352809791,
+        "macro_auroc": 0.9293832764184552,
+        "macro_auprc": 0.8322574397310196
+      },
+      "Threshold 0.3": {
+        "macro_f1": 0.7461347942448378,
+        "micro_f1": 0.7768780926675664,
+        "samples_f1": 0.7915527561869025,
+        "macro_auroc": 0.9293832764184552,
+        "macro_auprc": 0.8322574397310196
+      },
+      "Per-class F1-tuned": {
+        "macro_f1": 0.7509780001567964,
+        "micro_f1": 0.7848913172585817,
+        "samples_f1": 0.7824071592364275,
+        "macro_auroc": 0.9293832764184552,
+        "macro_auprc": 0.8322574397310196
+      },
+      "Standard CP": {
+        "macro_f1": 0.6941511704641024,
+        "micro_f1": 0.7190058761198344,
+        "samples_f1": 0.7499136364990023,
+        "macro_auroc": 0.9293832764184552,
+        "macro_auprc": 0.8322574397310196
+      },
+      "Multi-Label CRC": {
+        "macro_f1": 0.5754335024448871,
+        "micro_f1": 0.5764088928281261,
+        "samples_f1": 0.5922429196819441,
+        "macro_auroc": 0.9293832764184552,
+        "macro_auprc": 0.8322574397310196
+      }
+    },
+    "chapman": {
+      "Standard CP": {
+        "macro_f1": 0.5679820733939834,
+        "micro_f1": 0.63001443001443,
+        "samples_f1": 0.6776470588235295,
+        "macro_auroc": 0.8855976443592205,
+        "macro_auprc": 0.6693162898060816
+      },
+      "Multi-Label CRC": {
+        "macro_f1": 0.4715362777233498,
+        "micro_f1": 0.49882458300682864,
+        "samples_f1": 0.49416088994520374,
+        "macro_auroc": 0.8855976443592205,
+        "macro_auprc": 0.6693162898060816
+      }
+    }
+  },
+  "ablations": {
+    "correction_on_off": {
+      "correction_on": {
+        "class_fnr": {
+          "CD": 0.06424581005586594,
+          "HYP": 0.09307875894988071,
+          "MI": 0.0,
+          "NORM": 0.11914893617021272,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.38759065269943593,
+          "HYP": 0.28067650233897085,
+          "MI": 0.8030625265844321,
+          "NORM": 0.10794183445190157,
+          "STTC": 0.6802637000412032
+        },
+        "class_tpr": {
+          "CD": 0.9357541899441341,
+          "HYP": 0.9069212410501193,
+          "MI": 1.0,
+          "NORM": 0.8808510638297873,
+          "STTC": 0.9896238651102465
+        },
+        "class_set_pct": {
+          "CD": 0.5103189493433395,
+          "HYP": 0.3627267041901188,
+          "MI": 0.8552220137585991,
+          "NORM": 0.44871794871794873,
+          "STTC": 0.7548467792370231
+        },
+        "mean_set_size": 2.9318323952470293,
+        "median_set_size": 3.0,
+        "joint_coverage": 0.9190118824265165,
+        "macro_class_coverage": 0.9426300719868574,
+        "marginal_coverage": 0.9426300719868574
+      },
+      "correction_off": {
+        "class_fnr": {
+          "CD": 0.12569832402234637,
+          "HYP": 0.13603818615751795,
+          "MI": 0.046044864226682414,
+          "NORM": 0.1609929078014184,
+          "STTC": 0.05058365758754868
+        },
+        "class_fpr": {
+          "CD": 0.21796937953263498,
+          "HYP": 0.19323497661029146,
+          "MI": 0.3751595065929392,
+          "NORM": 0.08892617449664429,
+          "STTC": 0.27976926246394723
+        },
+        "class_tpr": {
+          "CD": 0.8743016759776536,
+          "HYP": 0.863961813842482,
+          "MI": 0.9539551357733176,
+          "NORM": 0.8390070921985816,
+          "STTC": 0.9494163424124513
+        },
+        "class_set_pct": {
+          "CD": 0.3649155722326454,
+          "HYP": 0.2811131957473421,
+          "MI": 0.5284552845528455,
+          "NORM": 0.41963727329580985,
+          "STTC": 0.44121325828642904
+        },
+        "mean_set_size": 2.035334584115072,
+        "median_set_size": 2.0,
+        "joint_coverage": 0.8624140087554721,
+        "macro_class_coverage": 0.8961284120408972,
+        "marginal_coverage": 0.8961284120408972
+      }
+    },
+    "calibration_size_sweep": [
+      {
+        "fraction": 0.1,
+        "n_cal": 314,
+        "mean_set_size": 3.624765478424015,
+        "marginal_coverage": 0.9778680766391936,
+        "class_fnr": {
+          "CD": 0.005586592178770999,
+          "HYP": 0.004773269689737458,
+          "MI": 0.04368358913813464,
+          "NORM": 0.05531914893617018,
+          "STTC": 0.0012970168612191912
+        },
+        "class_fpr": {
+          "CD": 0.8674456083803385,
+          "HYP": 0.7182439726520331,
+          "MI": 0.38919608677158657,
+          "NORM": 0.21420581655480983,
+          "STTC": 0.8669138854552946
+        }
+      },
+      {
+        "fraction": 0.25,
+        "n_cal": 786,
+        "mean_set_size": 3.7057535959974985,
+        "marginal_coverage": 0.9793335636944385,
+        "class_fnr": {
+          "CD": 0.005586592178770999,
+          "HYP": 0.014319809069212375,
+          "MI": 0.0,
+          "NORM": 0.07304964539007097,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.8900080580177276,
+          "HYP": 0.6275638718963656,
+          "MI": 0.8030625265844321,
+          "NORM": 0.17785234899328858,
+          "STTC": 0.6798516687268232
+        }
+      },
+      {
+        "fraction": 0.5,
+        "n_cal": 1572,
+        "mean_set_size": 3.2873671044402752,
+        "marginal_coverage": 0.960945671813042,
+        "class_fnr": {
+          "CD": 0.03631284916201116,
+          "HYP": 0.04773269689737469,
+          "MI": 0.0,
+          "NORM": 0.10992907801418439,
+          "STTC": 0.0012970168612191912
+        },
+        "class_fpr": {
+          "CD": 0.5141015310233682,
+          "HYP": 0.35840230298668585,
+          "MI": 0.8396427052318163,
+          "NORM": 0.11297539149888143,
+          "STTC": 0.8669138854552946
+        }
+      },
+      {
+        "fraction": 0.75,
+        "n_cal": 2358,
+        "mean_set_size": 3.072545340838024,
+        "marginal_coverage": 0.9494860861229121,
+        "class_fnr": {
+          "CD": 0.06424581005586594,
+          "HYP": 0.07875894988066823,
+          "MI": 0.0,
+          "NORM": 0.10567375886524821,
+          "STTC": 0.0038910505836575737
+        },
+        "class_fpr": {
+          "CD": 0.38759065269943593,
+          "HYP": 0.3130622526088521,
+          "MI": 0.8396427052318163,
+          "NORM": 0.11465324384787472,
+          "STTC": 0.7758549649773383
+        }
+      },
+      {
+        "fraction": 1.0,
+        "n_cal": 3144,
+        "mean_set_size": 2.9318323952470293,
+        "marginal_coverage": 0.9426300719868574,
+        "class_fnr": {
+          "CD": 0.06424581005586594,
+          "HYP": 0.09307875894988071,
+          "MI": 0.0,
+          "NORM": 0.11914893617021272,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.38759065269943593,
+          "HYP": 0.28067650233897085,
+          "MI": 0.8030625265844321,
+          "NORM": 0.10794183445190157,
+          "STTC": 0.6802637000412032
+        }
+      }
+    ]
+  },
+  "subclass_analysis": {
+    "subclasses": [
+      "AMI",
+      "CLBBB",
+      "CRBBB",
+      "ILBBB",
+      "IMI",
+      "IRBBB",
+      "ISCA",
+      "ISCI",
+      "ISC_",
+      "IVCD",
+      "LAFB/LPFB",
+      "LAO/LAE",
+      "LMI",
+      "LVH",
+      "NORM",
+      "NST_",
+      "PMI",
+      "RAO/RAE",
+      "RVH",
+      "SEHYP",
+      "STTC",
+      "WPW",
+      "_AVB"
+    ],
+    "split": {
+      "n_train": 14972,
+      "n_fit": 13500,
+      "n_validation": 1472,
+      "n_cal": 3218,
+      "n_test": 3198,
+      "patient_disjoint": true
+    },
+    "feasibility": {
+      "AMI": {
+        "n_pos_cal": 441,
+        "correction": 0.058279686444781334,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "CLBBB": {
+        "n_pos_cal": 96,
+        "correction": 0.12491105738922274,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "CRBBB": {
+        "n_pos_cal": 70,
+        "correction": 0.14628085202186508,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "ILBBB": {
+        "n_pos_cal": 8,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "IMI": {
+        "n_pos_cal": 539,
+        "correction": 0.05271595986460945,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "IRBBB": {
+        "n_pos_cal": 170,
+        "correction": 0.09386680603471492,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "ISCA": {
+        "n_pos_cal": 141,
+        "correction": 0.10306873478711663,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "ISCI": {
+        "n_pos_cal": 69,
+        "correction": 0.14733704517474897,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "ISC_": {
+        "n_pos_cal": 173,
+        "correction": 0.0930493727099583,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "IVCD": {
+        "n_pos_cal": 125,
+        "correction": 0.10946656610223945,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "LAFB/LPFB": {
+        "n_pos_cal": 251,
+        "correction": 0.07725020498630586,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "LAO/LAE": {
+        "n_pos_cal": 70,
+        "correction": 0.14628085202186508,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "LMI": {
+        "n_pos_cal": 39,
+        "correction": 0.19597659048958616,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "LVH": {
+        "n_pos_cal": 315,
+        "correction": 0.06895745494827112,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "NORM": {
+        "n_pos_cal": 1425,
+        "correction": 0.03242119879140152,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "NST_": {
+        "n_pos_cal": 102,
+        "correction": 0.12118152551137759,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      },
+      "PMI": {
+        "n_pos_cal": 1,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "RAO/RAE": {
+        "n_pos_cal": 14,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "RVH": {
+        "n_pos_cal": 15,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "SEHYP": {
+        "n_pos_cal": 6,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "STTC": {
+        "n_pos_cal": 299,
+        "correction": 0.07077842709278782,
+        "practical_feasible": true,
+        "floor_active": false,
+        "guarantee_valid": true,
+        "status": "non-vacuous Hoeffding bound"
+      },
+      "WPW": {
+        "n_pos_cal": 11,
+        "correction": null,
+        "practical_feasible": false,
+        "floor_active": false,
+        "guarantee_valid": false,
+        "status": "infeasible: n_pos < 30"
+      },
+      "_AVB": {
+        "n_pos_cal": 124,
+        "correction": 0.10990707720237726,
+        "practical_feasible": true,
+        "floor_active": true,
+        "guarantee_valid": false,
+        "status": "legacy floor active: empirical only"
+      }
+    },
+    "metrics": {
+      "class_fnr": {
+        "AMI": 0.031180400890868598,
+        "CLBBB": 0.0,
+        "CRBBB": 0.0864197530864198,
+        "ILBBB": 0.0,
+        "IMI": 0.05982905982905984,
+        "IRBBB": 0.0,
+        "ISCA": 0.021582733812949617,
+        "ISCI": 0.0,
+        "ISC_": 0.02197802197802201,
+        "IVCD": 0.04065040650406504,
+        "LAFB/LPFB": 0.03065134099616862,
+        "LAO/LAE": 0.0,
+        "LMI": 0.027027027027026973,
+        "LVH": 0.045016077170418,
+        "NORM": 0.07375886524822695,
+        "NST_": 0.008695652173912993,
+        "PMI": 0.0,
+        "RAO/RAE": 0.0,
+        "RVH": 0.0,
+        "SEHYP": 0.0,
+        "STTC": 0.016901408450704203,
+        "WPW": 0.0,
+        "_AVB": 0.008547008547008517
+      },
+      "class_fpr": {
+        "AMI": 0.38814114223353946,
+        "CLBBB": 0.08014161570646926,
+        "CRBBB": 0.010266281681103625,
+        "ILBBB": 1.0,
+        "IMI": 0.27216117216117214,
+        "IRBBB": 0.9817275747508306,
+        "ISCA": 0.40764955867930697,
+        "ISCI": 0.8687898089171975,
+        "ISC_": 0.29442970822281167,
+        "IVCD": 0.911219512195122,
+        "LAFB/LPFB": 0.1198501872659176,
+        "LAO/LAE": 0.91104,
+        "LMI": 0.591584941474217,
+        "LVH": 0.2570142015933495,
+        "NORM": 0.18959731543624161,
+        "NST_": 0.9435614661044437,
+        "PMI": 1.0,
+        "RAO/RAE": 1.0,
+        "RVH": 1.0,
+        "SEHYP": 1.0,
+        "STTC": 0.54555047485051,
+        "WPW": 1.0,
+        "_AVB": 0.8896462187601428
+      },
+      "class_tpr": {
+        "AMI": 0.9688195991091314,
+        "CLBBB": 1.0,
+        "CRBBB": 0.9135802469135802,
+        "ILBBB": 1.0,
+        "IMI": 0.9401709401709402,
+        "IRBBB": 1.0,
+        "ISCA": 0.9784172661870504,
+        "ISCI": 1.0,
+        "ISC_": 0.978021978021978,
+        "IVCD": 0.959349593495935,
+        "LAFB/LPFB": 0.9693486590038314,
+        "LAO/LAE": 1.0,
+        "LMI": 0.972972972972973,
+        "LVH": 0.954983922829582,
+        "NORM": 0.926241134751773,
+        "NST_": 0.991304347826087,
+        "PMI": 1.0,
+        "RAO/RAE": 1.0,
+        "RVH": 1.0,
+        "SEHYP": 1.0,
+        "STTC": 0.9830985915492958,
+        "WPW": 1.0,
+        "_AVB": 0.9914529914529915
+      },
+      "class_set_pct": {
+        "AMI": 0.46966854283927456,
+        "CLBBB": 0.10631644777986242,
+        "CRBBB": 0.03314571607254534,
+        "ILBBB": 1.0,
+        "IMI": 0.3699186991869919,
+        "IRBBB": 0.982801751094434,
+        "ISCA": 0.4324577861163227,
+        "ISCI": 0.8711694809255784,
+        "ISC_": 0.3333333333333333,
+        "IVCD": 0.9130706691682301,
+        "LAFB/LPFB": 0.18918073796122575,
+        "LAO/LAE": 0.9130706691682301,
+        "LMI": 0.5959974984365228,
+        "LVH": 0.3248905565978737,
+        "NORM": 0.5143839899937461,
+        "NST_": 0.9452782989368356,
+        "PMI": 1.0,
+        "RAO/RAE": 1.0,
+        "RVH": 1.0,
+        "SEHYP": 1.0,
+        "STTC": 0.5941213258286429,
+        "WPW": 1.0,
+        "_AVB": 0.8933708567854909
+      },
+      "mean_set_size": 15.482176360225141,
+      "median_set_size": 16.0,
+      "joint_coverage": 0.942151344590369,
+      "macro_class_coverage": 0.9794679236645717,
+      "marginal_coverage": 0.9794679236645717
+    },
+    "observed_targets_met": 23,
+    "non_floor_guaranteed_targets_met": 8
+  },
+  "calibration_subsample_sensitivity": {
+    "description": "Fixed model; distinct 80% calibration subsets",
+    "seeds": [
+      42,
+      123,
+      2024
+    ],
+    "per_seed": [
+      {
+        "seed": 42,
+        "calibration_fraction": 0.8,
+        "n_calibration_records": 2515,
+        "class_fnr": {
+          "CD": 0.05027932960893855,
+          "HYP": 0.07875894988066823,
+          "MI": 0.0047225501770956635,
+          "NORM": 0.11063829787234047,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.44238517324738114,
+          "HYP": 0.31342209427851747,
+          "MI": 0.7447894512973203,
+          "NORM": 0.11185682326621924,
+          "STTC": 0.6802637000412032
+        },
+        "mean_set_size": 2.9696685428392744,
+        "macro_class_coverage": 0.9490449475142407,
+        "calibration_status": {
+          "CD": {
+            "n_cal": 639,
+            "alpha_target": 0.1,
+            "alpha_effective": 0.0515843159574312,
+            "correction": 0.0484156840425688,
+            "threshold": 0.9319685101509094,
+            "q_level": 0.9499217527386542,
+            "q_level_raw": 0.9499217527386542,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "HYP": {
+            "n_cal": 306,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.08003581362519664,
+            "correction": 0.06996418637480335,
+            "threshold": 0.9498551487922668,
+            "q_level": 0.9248366013071896,
+            "q_level_raw": 0.9248366013071896,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "MI": {
+            "n_cal": 599,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.05000611209348482,
+            "threshold": 0.995181679725647,
+            "q_level": 0.996661101836394,
+            "q_level_raw": 0.996661101836394,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          },
+          "NORM": {
+            "n_cal": 1136,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.1136882369680734,
+            "correction": 0.036311763031926604,
+            "threshold": 0.39545732736587524,
+            "q_level": 0.8873239436619719,
+            "q_level_raw": 0.8873239436619719,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "STTC": {
+            "n_cal": 608,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.04963462118017025,
+            "threshold": 0.9965527653694153,
+            "q_level": 0.9967105263157895,
+            "q_level_raw": 0.9967105263157895,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          }
+        }
+      },
+      {
+        "seed": 123,
+        "calibration_fraction": 0.8,
+        "n_calibration_records": 2515,
+        "class_fnr": {
+          "CD": 0.06284916201117319,
+          "HYP": 0.08114558472553701,
+          "MI": 0.0,
+          "NORM": 0.10425531914893615,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.3887993553585818,
+          "HYP": 0.30730478589420657,
+          "MI": 0.8030625265844321,
+          "NORM": 0.11689038031319911,
+          "STTC": 0.6802637000412032
+        },
+        "mean_set_size": 2.969355847404628,
+        "macro_class_coverage": 0.9482747598449202,
+        "calibration_status": {
+          "CD": {
+            "n_cal": 626,
+            "alpha_target": 0.1,
+            "alpha_effective": 0.051084180401510144,
+            "correction": 0.04891581959848986,
+            "threshold": 0.9193003177642822,
+            "q_level": 0.950479233226837,
+            "q_level_raw": 0.950479233226837,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "HYP": {
+            "n_cal": 313,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.08082258450921999,
+            "correction": 0.06917741549078,
+            "threshold": 0.9488551020622253,
+            "q_level": 0.9233226837060703,
+            "q_level_raw": 0.9233226837060703,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "MI": {
+            "n_cal": 613,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.04943178166714123,
+            "threshold": 0.9969688653945923,
+            "q_level": 0.9967373572593801,
+            "q_level_raw": 0.9967373572593801,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          },
+          "NORM": {
+            "n_cal": 1125,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.11351114463258685,
+            "correction": 0.03648885536741315,
+            "threshold": 0.4091145396232605,
+            "q_level": 0.888,
+            "q_level_raw": 0.888,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "STTC": {
+            "n_cal": 619,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.049191625841717476,
+            "threshold": 0.9965524673461914,
+            "q_level": 0.9967689822294022,
+            "q_level_raw": 0.9967689822294022,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          }
+        }
+      },
+      {
+        "seed": 2024,
+        "calibration_fraction": 0.8,
+        "n_calibration_records": 2515,
+        "class_fnr": {
+          "CD": 0.06564245810055869,
+          "HYP": 0.08114558472553701,
+          "MI": 0.005903187721369552,
+          "NORM": 0.1163120567375886,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.38235294117647056,
+          "HYP": 0.30730478589420657,
+          "MI": 0.6444066354742662,
+          "NORM": 0.10906040268456375,
+          "STTC": 0.6802637000412032
+        },
+        "mean_set_size": 2.8358348968105065,
+        "macro_class_coverage": 0.9441241155650385,
+        "calibration_status": {
+          "CD": {
+            "n_cal": 624,
+            "alpha_target": 0.1,
+            "alpha_effective": 0.05100585237760347,
+            "correction": 0.04899414762239654,
+            "threshold": 0.9173693060874939,
+            "q_level": 0.9519230769230769,
+            "q_level_raw": 0.9519230769230769,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "HYP": {
+            "n_cal": 308,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.0802633400370906,
+            "correction": 0.0697366599629094,
+            "threshold": 0.9488537907600403,
+            "q_level": 0.9253246753246753,
+            "q_level_raw": 0.9253246753246753,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "MI": {
+            "n_cal": 613,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.04943178166714123,
+            "threshold": 0.9905999898910522,
+            "q_level": 0.9967373572593801,
+            "q_level_raw": 0.9967373572593801,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          },
+          "NORM": {
+            "n_cal": 1121,
+            "alpha_target": 0.15,
+            "alpha_effective": 0.1134461020580294,
+            "correction": 0.0365538979419706,
+            "threshold": 0.3822297751903534,
+            "q_level": 0.8876003568242641,
+            "q_level_raw": 0.8876003568242641,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": false,
+            "guarantee_valid": true,
+            "status": "non-vacuous Hoeffding bound"
+          },
+          "STTC": {
+            "n_cal": 621,
+            "alpha_target": 0.05,
+            "alpha_effective": 0.005,
+            "correction": 0.04911234839158298,
+            "threshold": 0.9965524673461914,
+            "q_level": 0.9967793880837359,
+            "q_level_raw": 0.9967793880837359,
+            "vacuous": false,
+            "feasible": true,
+            "floor_active": true,
+            "guarantee_valid": false,
+            "status": "legacy floor active: empirical only"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,116 +1,109 @@
-# Per-Class Conformal Risk Control for Multi-Label ECG Classification
+# Per-Class Exact-Binomial Risk Control for Multi-Label ECG Classification
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/oussamaElallam/crc-ecg/blob/main/multilabel_crc_ecg.ipynb)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 
-Reproducibility repository for the paper *"Per-Class Conformal Risk Control for Multi-Label ECG Classification: Achieving Clinically-Justified False Negative Rate Guarantees"* by Oussama El Allam and Mohamed Hamlich (2026).
+Reproducibility repository for *“Per-Class Conformal Risk Control for Multi-Label ECG Classification: Achieving Clinically-Justified False Negative Rate Guarantees”* by Oussama El Allam and Mohamed Hamlich.
 
-**Click the "Open In Colab" badge above to run the full reproduction notebook in your browser — no local setup required.**
+## Corrected primary method
 
-## What's in this repository
+For each diagnostic class, the false-negative loss is binary. We calibrate the largest admissible probability threshold using a one-sided exact binomial (Clopper–Pearson) upper confidence bound. For the nine FNR-controlled classes, the total failure probability `0.05` is divided by nine using Bonferroni, yielding simultaneous 95% family-wise control.
 
-```
+The reported operating point also applies a conservative calibration safeguard: the final nonconformity threshold is never smaller than the earlier calibration-derived threshold. Enlarging the prediction set cannot increase FNR, so the exact-binomial condition is preserved. The held-out test set is not used to select thresholds.
+
+The earlier Hoeffding rule with `max(0.005, alpha - epsilon)` is retained only as a transparent audit/ablation. When that floor binds, it is not presented as a valid continuation of the Hoeffding proof.
+
+## Headline corrected results
+
+| Dataset | Exact-binomial RCPS | Uniform Standard CP |
+|---|---:|---:|
+| PTB-XL | **4 / 4** targets | 1 / 4 |
+| Chapman-Shaoxing | **5 / 5** targets | 4 / 5 |
+| **Combined** | **9 / 9** | **5 / 9** |
+
+The guarded exact-binomial method has **9/9 non-vacuous simultaneous guarantees** and meets **9/9 held-out empirical targets**.
+
+Critical-class held-out FNRs at the reported operating point are approximately:
+
+- MI: **0.00%** (target 5%)
+- STTC: **1.04%** (target 5%)
+- AF: **0.30%** (target 5%)
+- ST: **0.47%** (target 5%)
+
+This sensitivity comes with a substantial specificity/workload cost, especially on Chapman. The repository reports every per-class FPR and prediction-set size; the method should be interpreted as high-sensitivity risk control, not autonomous diagnosis.
+
+## Corrected data protocol
+
+- PTB-XL retained records: **21,388**
+- PTB-XL split: 15,046 train / 3,144 calibration / 3,198 test
+- PTB-XL partitions are patient-disjoint
+- Signal normalization is fitted only on the model-fitting partition
+- Chapman retained records: **10,199**
+- Cross-dataset evaluation applies PTB-XL fitting statistics to Chapman signals
+- Co-occurrence matrices use `int64` accumulation to avoid integer overflow
+
+The cross-dataset PTB-XL→Chapman experiment drops from approximately **94.3% to 45.5% macro class coverage**, illustrating that the in-distribution guarantee does not transport automatically under substantial covariate and label-definition shift.
+
+## Repository layout
+
+```text
 crc-ecg/
-├── crc/                                       # Standalone Python module
+├── crc/
 │   ├── __init__.py
-│   ├── multilabel_crc.py                      # MultiLabelCRC class
-│   └── baselines.py                           # multi-label baselines
-├── multilabel_crc_ecg.ipynb     # End-to-end reproduction notebook
-├── example_results.json                       # Sample output (all numbers from the paper)
-├── figures/                                   # Generated figures (PNG, 200 dpi)
+│   ├── multilabel_crc.py       # exact-binomial RCPS + legacy audit class
+│   └── baselines.py            # fixed, F1, uniform CP, class-matched CP
+├── multilabel_crc_ecg.ipynb    # complete corrected workflow
+├── example_results.json        # concise corrected result manifest
+├── results/
+│   ├── verification_results_20260712_1446.json
+│   └── exact_binomial_rcps_results_20260712_1459.json
+├── figures/                    # corrected manuscript figures
+├── scripts/
+│   └── exact_binomial_rcps_patch.py
+├── tests/
+├── REPRODUCIBILITY_AUDIT.md
 ├── requirements.txt
-├── LICENSE                                    # MIT
-├── CITATION.cff
-└── README.md
+└── LICENSE
 ```
 
-## Quick start — use the CRC class directly
+## Quick start
+
+```bash
+pip install -r requirements.txt
+python -m unittest discover -s tests -v
+```
 
 ```python
 from crc import MultiLabelCRC
 
-# probs_cal:  [n_cal, K] sigmoid probabilities from your model on calibration data
-# y_cal:      [n_cal, K] multi-hot true labels
-# class_alphas: {k: alpha_k}  per-class FNR targets (e.g. MI -> 0.05, HYP -> 0.15)
+# FNR-controlled class indices only; exclude descriptive Normal/NORM classes.
+controlled = [0, 1, 2, 4]
+class_alphas = {0: 0.10, 1: 0.15, 2: 0.05, 3: 0.15, 4: 0.05}
 
-crc = MultiLabelCRC(confidence=0.95, finite_sample_correction=True)
-crc.calibrate(probs_cal, y_cal, class_alphas)
-
-# At inference:
-predictions = crc.predict(probs_test)
-metrics = MultiLabelCRC.compute_metrics(predictions, y_test, class_names)
-ci = MultiLabelCRC.bootstrap_ci(predictions, y_test, class_names, n_boot=500)
+rcps = MultiLabelCRC(confidence=0.95, simultaneous=True, family_size=9)
+rcps.calibrate(
+    probs_cal,
+    y_cal,
+    class_alphas,
+    controlled_classes=controlled,
+)
+prediction_sets = rcps.predict(probs_test)
+metrics = rcps.compute_metrics(prediction_sets, y_test, class_names)
 ```
 
-## Full reproduction of the paper
+The optional `guard_lambdas=` argument accepts calibration-derived legacy thresholds and produces a more inclusive operating point without consulting test labels.
 
-### 1. Environment
+## Full reproduction
 
-Python 3.10+, GPU recommended (Colab T4 / A100 sufficient).
+Open `multilabel_crc_ecg.ipynb` in Colab. The notebook trains the models, reproduces the submitted-method audit, runs the corrected exact-binomial analysis, regenerates results JSON files and plots, and writes outputs to `CRC_Revision/` on Google Drive.
 
-```bash
-pip install -r requirements.txt
-```
+The historical key `marginal_coverage` is retained in JSON for compatibility, but it is the unweighted mean of class TPRs and should be read as **macro class coverage**, not conventional sample-level marginal conformal coverage.
 
-### 2. Data
+## Transparency
 
-Both datasets are public. Download them once and point the notebook at them:
+See [REPRODUCIBILITY_AUDIT.md](REPRODUCIBILITY_AUDIT.md) for the exact corrections, unchanged components, and limitations.
 
-| Dataset | Source | DOI |
-|---|---|---|
-| **PTB-XL v1.0.3** | https://physionet.org/content/ptb-xl/1.0.3/ | 10.13026/x4td-x982 |
-| **Chapman-Shaoxing** | https://www.kaggle.com/datasets/erarayamorenzomuten/chapmanshaoxing-12lead-ecg-database | 10.13026/wgex-er52 |
+## License and data
 
-### 3. Run
-
-Click the **"Open In Colab"** badge at the top of this page, or launch locally:
-
-```bash
-jupyter notebook multilabel_crc_ecg.ipynb
-```
-
-Total runtime: ~30 min on T4, ~12 min on A100.
-
-The notebook writes all results to a `CRC_Revision/` directory containing a JSON of every reported number and PNGs of every figure. An example output is included in `example_results.json` and `figures/` for reference.
-
-## Method in one paragraph
-
-For each diagnostic class `k`, treat the problem as an independent binary calibration: (1) compute nonconformity scores `s_i = 1 − p̂_k(x_i)` on calibration positives; (2) apply the Hoeffding finite-sample correction `ε_k = √(log(1/δ) / (2 n_k))`, effective target `α'_k = max(0.005, α_k − ε_k)`; (3) set `λ_k` as the `⌈(n_k + 1)(1 − α'_k)⌉ / n_k` quantile of the class-k scores; (4) at inference, include class `k` iff `p̂_k(x) ≥ 1 − λ_k`.
-
-The Hoeffding correction is a standard device from the conformal-prediction literature (Vovk et al. 2005; Romano et al. 2020; Bates et al. 2021; Angelopoulos & Bates 2021). Our contribution is its application — together with clinically-justified per-class α targets derived from FDA-cleared device benchmarks and AHA guidelines — to multi-label ECG classification.
-
-## Headline results
-
-| Dataset | Targets met (CRC) | Targets met (Standard CP) |
-|---|---|---|
-| PTB-XL | **4 / 4** (CD, HYP, MI, STTC) | 2 / 4 |
-| Chapman-Shaoxing | **5 / 5** (AF, CD, PAC_PVC, ST, Other) | 2 / 5 |
-| **Combined** | **9 / 9** | **4 / 9** |
-
-Critical-class FNRs (target ≤ 5%): **MI 1.1%, STTC 1.4%, AF 0.0%, ST 0.0%**.
-
-23-PTB-XL-subclass analysis: **17 / 17** feasible subclasses (n_pos ≥ 30) meet the 10% target; 6 inadequately-powered subclasses are explicitly flagged by the method's feasibility check.
-
-Distribution shift (train PTB-XL → test Chapman, harmonised labels): marginal coverage drops 94.3% → 78.3%, confirming exchangeability is binding.
-
-## Citation
-
-```bibtex
-@article{ElAllam2026CRC,
-  title   = {Per-Class Conformal Risk Control for Multi-Label ECG Classification:
-             Achieving Clinically-Justified False Negative Rate Guarantees},
-  author  = {El Allam, Oussama and Hamlich, Mohamed},
-  journal = {Physiological Measurement},
-  year    = {2026}
-}
-```
-
-## License
-
-Code: MIT (see `LICENSE`). Datasets retain their original licenses: PTB-XL is CC BY 4.0, Chapman-Shaoxing is ODC-By v1.0.
-
-## Contact
-
-Oussama El Allam — elallamoussama7@gmail.com
-Complex Cyber-Physical Systems Laboratory, ENSAM Casablanca, University Hassan II.
+Code is MIT licensed. Datasets are not redistributed. PTB-XL and Chapman-Shaoxing retain their original licenses and must be downloaded from their official sources.

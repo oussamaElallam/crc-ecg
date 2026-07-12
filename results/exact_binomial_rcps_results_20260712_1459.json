@@ -1,0 +1,895 @@
+{
+  "meta": {
+    "date": "2026-07-12",
+    "method": "exact-binomial monotone UCB RCPS",
+    "training_reused": true,
+    "test_set_not_used_for_threshold_selection": true,
+    "family_size": 9,
+    "family_delta": 0.005555555555555556
+  },
+  "per_class_95": {
+    "ptbxl": {
+      "calibration": {
+        "0": {
+          "n_cal": 777,
+          "alpha_target": 0.1,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.8756628632545471,
+          "probability_threshold": 0.12433713674545288,
+          "calibration_misses": 63,
+          "calibration_fnr": 0.08108108108108109,
+          "exact_ucb": 0.09904399558871024,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "1": {
+          "n_cal": 384,
+          "alpha_target": 0.15,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9096514657139778,
+          "probability_threshold": 0.09034853428602219,
+          "calibration_misses": 45,
+          "calibration_fnr": 0.1171875,
+          "exact_ucb": 0.1477189805429638,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "2": {
+          "n_cal": 744,
+          "alpha_target": 0.05,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9578328728675842,
+          "probability_threshold": 0.04216712713241577,
+          "calibration_misses": 27,
+          "calibration_fnr": 0.036290322580645164,
+          "exact_ucb": 0.049700336626346577,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "3": {
+          "n_cal": 1422,
+          "alpha_target": 0.15,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.3340381979942322,
+          "probability_threshold": 0.6659618020057678,
+          "calibration_misses": 190,
+          "calibration_fnr": 0.13361462728551335,
+          "exact_ucb": 0.14936982448328218,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "4": {
+          "n_cal": 761,
+          "alpha_target": 0.05,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9350447654724121,
+          "probability_threshold": 0.06495523452758789,
+          "calibration_misses": 27,
+          "calibration_fnr": 0.035479632063074903,
+          "exact_ucb": 0.04859765696381941,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "CD": 0.1033519553072626,
+          "HYP": 0.12649164677804292,
+          "MI": 0.04368358913813464,
+          "NORM": 0.14113475177304968,
+          "STTC": 0.03372243839169908
+        },
+        "class_fpr": {
+          "CD": 0.2723609991941982,
+          "HYP": 0.21842389348686578,
+          "MI": 0.40153126329221606,
+          "NORM": 0.09899328859060402,
+          "STTC": 0.3259167696744953
+        },
+        "class_tpr": {
+          "CD": 0.8966480446927374,
+          "HYP": 0.8735083532219571,
+          "MI": 0.9563164108618654,
+          "NORM": 0.8588652482269503,
+          "STTC": 0.9662775616083009
+        },
+        "class_set_pct": {
+          "CD": 0.41213258286429016,
+          "HYP": 0.3042526579111945,
+          "MI": 0.5484677923702314,
+          "NORM": 0.434021263289556,
+          "STTC": 0.4803001876172608
+        },
+        "mean_set_size": 2.179174484052533,
+        "median_set_size": 2.0,
+        "joint_coverage": 0.8818011257035647,
+        "macro_class_coverage": 0.9103231237223621,
+        "marginal_coverage": 0.9103231237223621
+      },
+      "empirical_targets_met": 3,
+      "target_count": 4,
+      "nonvacuous_guarantees": 4
+    },
+    "chapman": {
+      "calibration": {
+        "0": {
+          "n_cal": 1296,
+          "alpha_target": 0.15,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.24215495586395264,
+          "probability_threshold": 0.7578450441360474,
+          "calibration_misses": 172,
+          "calibration_fnr": 0.13271604938271606,
+          "exact_ucb": 0.14922274422482998,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "1": {
+          "n_cal": 328,
+          "alpha_target": 0.05,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.7998370975255966,
+          "probability_threshold": 0.20016290247440338,
+          "calibration_misses": 9,
+          "calibration_fnr": 0.027439024390243903,
+          "exact_ucb": 0.047392632030162626,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "2": {
+          "n_cal": 164,
+          "alpha_target": 0.1,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9494269639253616,
+          "probability_threshold": 0.05057303607463837,
+          "calibration_misses": 9,
+          "calibration_fnr": 0.054878048780487805,
+          "exact_ucb": 0.09380801590666968,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "3": {
+          "n_cal": 72,
+          "alpha_target": 0.1,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9920066837221384,
+          "probability_threshold": 0.007993316277861595,
+          "calibration_misses": 2,
+          "calibration_fnr": 0.027777777777777776,
+          "exact_ucb": 0.08486917446626821,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "4": {
+          "n_cal": 233,
+          "alpha_target": 0.05,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.9696769118309021,
+          "probability_threshold": 0.0303230881690979,
+          "calibration_misses": 5,
+          "calibration_fnr": 0.02145922746781116,
+          "exact_ucb": 0.04458820104981555,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "5": {
+          "n_cal": 282,
+          "alpha_target": 0.15,
+          "delta": 0.050000000000000044,
+          "confidence": 0.95,
+          "threshold": 0.8697293996810913,
+          "probability_threshold": 0.1302706003189087,
+          "calibration_misses": 32,
+          "calibration_fnr": 0.11347517730496454,
+          "exact_ucb": 0.14940840085744944,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "Normal": 0.12972972972972974,
+          "AF": 0.015151515151515138,
+          "CD": 0.05769230769230771,
+          "PAC_PVC": 0.012345679012345734,
+          "ST": 0.06635071090047395,
+          "Other": 0.1308139534883721
+        },
+        "class_fpr": {
+          "Normal": 0.04680851063829787,
+          "AF": 0.08583333333333333,
+          "CD": 0.25109170305676853,
+          "PAC_PVC": 0.9109730848861284,
+          "ST": 0.6557998483699773,
+          "Other": 0.44097807757166946
+        },
+        "class_tpr": {
+          "Normal": 0.8702702702702703,
+          "AF": 0.9848484848484849,
+          "CD": 0.9423076923076923,
+          "PAC_PVC": 0.9876543209876543,
+          "ST": 0.933649289099526,
+          "Other": 0.8691860465116279
+        },
+        "class_set_pct": {
+          "Normal": 0.7437908496732026,
+          "AF": 0.2797385620915033,
+          "CD": 0.3215686274509804,
+          "PAC_PVC": 0.9150326797385621,
+          "ST": 0.6941176470588235,
+          "Other": 0.5372549019607843
+        },
+        "mean_set_size": 3.4915032679738562,
+        "median_set_size": 4.0,
+        "joint_coverage": 0.8444444444444444,
+        "macro_class_coverage": 0.931319350670876,
+        "marginal_coverage": 0.931319350670876
+      },
+      "empirical_targets_met": 4,
+      "target_count": 5,
+      "nonvacuous_guarantees": 5
+    },
+    "combined_empirical_targets_met": 7,
+    "combined_nonvacuous_guarantees": 9
+  },
+  "simultaneous_95_bonferroni": {
+    "ptbxl": {
+      "calibration": {
+        "0": {
+          "n_cal": 777,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.8978574275970459,
+          "probability_threshold": 0.1021425724029541,
+          "calibration_misses": 56,
+          "calibration_fnr": 0.07207207207207207,
+          "exact_ucb": 0.09892644263012337,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "1": {
+          "n_cal": 384,
+          "alpha_target": 0.15,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9217808619141579,
+          "probability_threshold": 0.07821913808584213,
+          "calibration_misses": 40,
+          "calibration_fnr": 0.10416666666666667,
+          "exact_ucb": 0.14995923093660068,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "2": {
+          "n_cal": 744,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.964969091117382,
+          "probability_threshold": 0.03503090888261795,
+          "calibration_misses": 22,
+          "calibration_fnr": 0.02956989247311828,
+          "exact_ucb": 0.04920084192426476,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "3": {
+          "n_cal": 1422,
+          "alpha_target": 0.15,
+          "delta": 0.05,
+          "confidence": 0.95,
+          "threshold": 0.3340381979942322,
+          "probability_threshold": 0.6659618020057678,
+          "calibration_misses": 190,
+          "calibration_fnr": 0.13361462728551335,
+          "exact_ucb": 0.14936982448328218,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "4": {
+          "n_cal": 761,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9382526315748692,
+          "probability_threshold": 0.061747368425130844,
+          "calibration_misses": 23,
+          "calibration_fnr": 0.030223390275952694,
+          "exact_ucb": 0.04974641502294358,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "CD": 0.08100558659217882,
+          "HYP": 0.11217183770883055,
+          "MI": 0.037780401416765086,
+          "NORM": 0.14113475177304968,
+          "STTC": 0.0311284046692607
+        },
+        "class_fpr": {
+          "CD": 0.3271555197421434,
+          "HYP": 0.24037423533645197,
+          "MI": 0.4313058273075287,
+          "NORM": 0.09899328859060402,
+          "STTC": 0.33250927070457353
+        },
+        "class_tpr": {
+          "CD": 0.9189944134078212,
+          "HYP": 0.8878281622911695,
+          "MI": 0.9622195985832349,
+          "NORM": 0.8588652482269503,
+          "STTC": 0.9688715953307393
+        },
+        "class_set_pct": {
+          "CD": 0.4596622889305816,
+          "HYP": 0.3252032520325203,
+          "MI": 0.5719199499687304,
+          "NORM": 0.434021263289556,
+          "STTC": 0.48592870544090055
+        },
+        "mean_set_size": 2.276735459662289,
+        "median_set_size": 2.0,
+        "joint_coverage": 0.8902439024390244,
+        "macro_class_coverage": 0.919355803567983,
+        "marginal_coverage": 0.919355803567983
+      },
+      "empirical_targets_met": 4,
+      "target_count": 4,
+      "nonvacuous_guarantees": 4
+    },
+    "chapman": {
+      "calibration": {
+        "0": {
+          "n_cal": 1296,
+          "alpha_target": 0.15,
+          "delta": 0.05,
+          "confidence": 0.95,
+          "threshold": 0.24215495586395264,
+          "probability_threshold": 0.7578450441360474,
+          "calibration_misses": 172,
+          "calibration_fnr": 0.13271604938271606,
+          "exact_ucb": 0.14922274422482998,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "1": {
+          "n_cal": 328,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.8361175209283829,
+          "probability_threshold": 0.16388247907161713,
+          "calibration_misses": 6,
+          "calibration_fnr": 0.018292682926829267,
+          "exact_ucb": 0.04656554531961018,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "2": {
+          "n_cal": 164,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9645715095102787,
+          "probability_threshold": 0.0354284904897213,
+          "calibration_misses": 6,
+          "calibration_fnr": 0.036585365853658534,
+          "exact_ucb": 0.09178504664600898,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "3": {
+          "n_cal": 72,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9923449554480612,
+          "probability_threshold": 0.007655044551938772,
+          "calibration_misses": 1,
+          "calibration_fnr": 0.013888888888888888,
+          "exact_ucb": 0.09719886417892949,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "4": {
+          "n_cal": 233,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.979608615860343,
+          "probability_threshold": 0.02039138413965702,
+          "calibration_misses": 3,
+          "calibration_fnr": 0.012875536480686695,
+          "exact_ucb": 0.045736347844550544,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        },
+        "5": {
+          "n_cal": 282,
+          "alpha_target": 0.15,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.8808615505695343,
+          "probability_threshold": 0.1191384494304657,
+          "calibration_misses": 27,
+          "calibration_fnr": 0.09574468085106383,
+          "exact_ucb": 0.14889415978819612,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "non-vacuous exact-binomial RCPS"
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "Normal": 0.12972972972972974,
+          "AF": 0.015151515151515138,
+          "CD": 0.02564102564102566,
+          "PAC_PVC": 0.012345679012345734,
+          "ST": 0.056872037914691975,
+          "Other": 0.125
+        },
+        "class_fpr": {
+          "Normal": 0.04680851063829787,
+          "AF": 0.09333333333333334,
+          "CD": 0.32241630276564776,
+          "PAC_PVC": 0.917184265010352,
+          "ST": 0.7589082638362395,
+          "Other": 0.45699831365935917
+        },
+        "class_tpr": {
+          "Normal": 0.8702702702702703,
+          "AF": 0.9848484848484849,
+          "CD": 0.9743589743589743,
+          "PAC_PVC": 0.9876543209876543,
+          "ST": 0.943127962085308,
+          "Other": 0.875
+        },
+        "class_set_pct": {
+          "Normal": 0.7437908496732026,
+          "AF": 0.2856209150326797,
+          "CD": 0.3888888888888889,
+          "PAC_PVC": 0.9209150326797385,
+          "ST": 0.7843137254901961,
+          "Other": 0.5509803921568628
+        },
+        "mean_set_size": 3.6745098039215685,
+        "median_set_size": 4.0,
+        "joint_coverage": 0.8490196078431372,
+        "macro_class_coverage": 0.939210002091782,
+        "marginal_coverage": 0.939210002091782
+      },
+      "empirical_targets_met": 4,
+      "target_count": 5,
+      "nonvacuous_guarantees": 5
+    },
+    "combined_empirical_targets_met": 8,
+    "combined_nonvacuous_guarantees": 9
+  },
+  "simultaneous_95_guarded": {
+    "ptbxl": {
+      "calibration": {
+        "0": {
+          "n_cal": 777,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9183225035667419,
+          "probability_threshold": 0.08167749643325806,
+          "calibration_misses": 42,
+          "calibration_fnr": 0.05405405405405406,
+          "exact_ucb": 0.0780992698108053,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9183225035667419,
+          "exact_minimal_threshold": 0.8978574275970459
+        },
+        "1": {
+          "n_cal": 384,
+          "alpha_target": 0.15,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.938686728477478,
+          "probability_threshold": 0.06131327152252197,
+          "calibration_misses": 32,
+          "calibration_fnr": 0.08333333333333333,
+          "exact_ucb": 0.1256924534935212,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.938686728477478,
+          "exact_minimal_threshold": 0.9217808619141579
+        },
+        "2": {
+          "n_cal": 744,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9969683885574341,
+          "probability_threshold": 0.003031611442565918,
+          "calibration_misses": 2,
+          "calibration_fnr": 0.002688172043010753,
+          "exact_ucb": 0.012230222234744828,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9969683885574341,
+          "exact_minimal_threshold": 0.964969091117382
+        },
+        "3": {
+          "n_cal": 1422,
+          "alpha_target": 0.15,
+          "delta": 0.05,
+          "confidence": 0.95,
+          "threshold": 0.37632399797439575,
+          "probability_threshold": 0.6236760020256042,
+          "calibration_misses": 166,
+          "calibration_fnr": 0.11673699015471167,
+          "exact_ucb": 0.13168636289514732,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.37632399797439575,
+          "exact_minimal_threshold": 0.3340381979942322
+        },
+        "4": {
+          "n_cal": 761,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.996553897857666,
+          "probability_threshold": 0.0034461021423339844,
+          "calibration_misses": 3,
+          "calibration_fnr": 0.003942181340341655,
+          "exact_ucb": 0.014167769667109274,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.996553897857666,
+          "exact_minimal_threshold": 0.9382526315748692
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "CD": 0.06424581005586594,
+          "HYP": 0.09307875894988071,
+          "MI": 0.0,
+          "NORM": 0.11914893617021272,
+          "STTC": 0.01037613488975353
+        },
+        "class_fpr": {
+          "CD": 0.38759065269943593,
+          "HYP": 0.28067650233897085,
+          "MI": 0.8030625265844321,
+          "NORM": 0.10794183445190157,
+          "STTC": 0.6802637000412032
+        },
+        "class_tpr": {
+          "CD": 0.9357541899441341,
+          "HYP": 0.9069212410501193,
+          "MI": 1.0,
+          "NORM": 0.8808510638297873,
+          "STTC": 0.9896238651102465
+        },
+        "class_set_pct": {
+          "CD": 0.5103189493433395,
+          "HYP": 0.3627267041901188,
+          "MI": 0.8552220137585991,
+          "NORM": 0.44871794871794873,
+          "STTC": 0.7548467792370231
+        },
+        "mean_set_size": 2.9318323952470293,
+        "median_set_size": 3.0,
+        "joint_coverage": 0.9190118824265165,
+        "macro_class_coverage": 0.9426300719868574,
+        "marginal_coverage": 0.9426300719868574
+      },
+      "empirical_targets_met": 4,
+      "target_count": 4
+    },
+    "chapman": {
+      "calibration": {
+        "0": {
+          "n_cal": 1296,
+          "alpha_target": 0.15,
+          "delta": 0.05,
+          "confidence": 0.95,
+          "threshold": 0.3611002266407013,
+          "probability_threshold": 0.6388997733592987,
+          "calibration_misses": 149,
+          "calibration_fnr": 0.11496913580246913,
+          "exact_ucb": 0.13058239611194808,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.3611002266407013,
+          "exact_minimal_threshold": 0.24215495586395264
+        },
+        "1": {
+          "n_cal": 328,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9547762870788574,
+          "probability_threshold": 0.04522371292114258,
+          "calibration_misses": 0,
+          "calibration_fnr": 0.0,
+          "exact_ucb": 0.015707515273112736,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9547762870788574,
+          "exact_minimal_threshold": 0.8361175209283829
+        },
+        "2": {
+          "n_cal": 164,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9912694096565247,
+          "probability_threshold": 0.008730590343475342,
+          "calibration_misses": 0,
+          "calibration_fnr": 0.0,
+          "exact_ucb": 0.031168304510170403,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9912694096565247,
+          "exact_minimal_threshold": 0.9645715095102787
+        },
+        "3": {
+          "n_cal": 72,
+          "alpha_target": 0.1,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9933987855911255,
+          "probability_threshold": 0.006601214408874512,
+          "calibration_misses": 0,
+          "calibration_fnr": 0.0,
+          "exact_ucb": 0.0695848556900068,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9933987855911255,
+          "exact_minimal_threshold": 0.9923449554480612
+        },
+        "4": {
+          "n_cal": 233,
+          "alpha_target": 0.05,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.9942341446876526,
+          "probability_threshold": 0.005765855312347412,
+          "calibration_misses": 0,
+          "calibration_fnr": 0.0,
+          "exact_ucb": 0.02204083994945086,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.9942341446876526,
+          "exact_minimal_threshold": 0.979608615860343
+        },
+        "5": {
+          "n_cal": 282,
+          "alpha_target": 0.15,
+          "delta": 0.005555555555555556,
+          "confidence": 0.9944444444444445,
+          "threshold": 0.8989666700363159,
+          "probability_threshold": 0.10103332996368408,
+          "calibration_misses": 20,
+          "calibration_fnr": 0.07092198581560284,
+          "exact_ucb": 0.118985074191917,
+          "feasible": true,
+          "vacuous": false,
+          "guarantee_valid": true,
+          "status": "exact-binomial RCPS with pre-specified legacy safeguard",
+          "legacy_safeguard_applied": true,
+          "legacy_threshold": 0.8989666700363159,
+          "exact_minimal_threshold": 0.8808615505695343
+        }
+      },
+      "metrics": {
+        "class_fnr": {
+          "Normal": 0.11196911196911197,
+          "AF": 0.00303030303030305,
+          "CD": 0.0064102564102563875,
+          "PAC_PVC": 0.012345679012345734,
+          "ST": 0.004739336492891044,
+          "Other": 0.11627906976744184
+        },
+        "class_fpr": {
+          "Normal": 0.08085106382978724,
+          "AF": 0.1425,
+          "CD": 0.6426491994177583,
+          "PAC_PVC": 0.937888198757764,
+          "ST": 0.9537528430629265,
+          "Other": 0.5042158516020236
+        },
+        "class_tpr": {
+          "Normal": 0.888030888030888,
+          "AF": 0.996969696969697,
+          "CD": 0.9935897435897436,
+          "PAC_PVC": 0.9876543209876543,
+          "ST": 0.995260663507109,
+          "Other": 0.8837209302325582
+        },
+        "class_set_pct": {
+          "Normal": 0.7640522875816993,
+          "AF": 0.32679738562091504,
+          "CD": 0.6784313725490196,
+          "PAC_PVC": 0.9405228758169935,
+          "ST": 0.9594771241830066,
+          "Other": 0.5895424836601307
+        },
+        "mean_set_size": 4.258823529411765,
+        "median_set_size": 4.0,
+        "joint_coverage": 0.8764705882352941,
+        "macro_class_coverage": 0.9575377072196084,
+        "marginal_coverage": 0.9575377072196084
+      },
+      "empirical_targets_met": 5,
+      "target_count": 5
+    },
+    "combined_empirical_targets_met": 9,
+    "combined_nonvacuous_guarantees": 9
+  },
+  "distribution_shift": {
+    "per_class_exact": {
+      "class_fnr": {
+        "CD": 0.28205128205128205,
+        "STTC": 0.3601895734597157,
+        "NORM": 0.9922779922779923
+      },
+      "class_fpr": {
+        "CD": 0.08951965065502183,
+        "STTC": 0.2577710386656558,
+        "NORM": 0.0
+      },
+      "class_tpr": {
+        "CD": 0.717948717948718,
+        "STTC": 0.6398104265402843,
+        "NORM": 0.007722007722007722
+      },
+      "class_set_pct": {
+        "CD": 0.15359477124183007,
+        "STTC": 0.3104575163398693,
+        "NORM": 0.006535947712418301
+      },
+      "mean_set_size": 0.47058823529411764,
+      "median_set_size": 0.0,
+      "joint_coverage": 0.15294117647058825,
+      "macro_class_coverage": 0.45516038407033665,
+      "marginal_coverage": 0.45516038407033665
+    },
+    "simultaneous_exact": {
+      "class_fnr": {
+        "CD": 0.28205128205128205,
+        "STTC": 0.3601895734597157,
+        "NORM": 0.9922779922779923
+      },
+      "class_fpr": {
+        "CD": 0.08951965065502183,
+        "STTC": 0.2577710386656558,
+        "NORM": 0.0
+      },
+      "class_tpr": {
+        "CD": 0.717948717948718,
+        "STTC": 0.6398104265402843,
+        "NORM": 0.007722007722007722
+      },
+      "class_set_pct": {
+        "CD": 0.15359477124183007,
+        "STTC": 0.3104575163398693,
+        "NORM": 0.006535947712418301
+      },
+      "mean_set_size": 0.47058823529411764,
+      "median_set_size": 0.0,
+      "joint_coverage": 0.15294117647058825,
+      "macro_class_coverage": 0.45516038407033665,
+      "marginal_coverage": 0.45516038407033665
+    },
+    "simultaneous_guarded": {
+      "class_fnr": {
+        "CD": 0.28205128205128205,
+        "STTC": 0.3601895734597157,
+        "NORM": 0.9922779922779923
+      },
+      "class_fpr": {
+        "CD": 0.08951965065502183,
+        "STTC": 0.2585291887793783,
+        "NORM": 0.0
+      },
+      "class_tpr": {
+        "CD": 0.717948717948718,
+        "STTC": 0.6398104265402843,
+        "NORM": 0.007722007722007722
+      },
+      "class_set_pct": {
+        "CD": 0.15359477124183007,
+        "STTC": 0.3111111111111111,
+        "NORM": 0.006535947712418301
+      },
+      "mean_set_size": 0.47124183006535947,
+      "median_set_size": 0.0,
+      "joint_coverage": 0.15294117647058825,
+      "macro_class_coverage": 0.45516038407033665,
+      "marginal_coverage": 0.45516038407033665
+    }
+  }
+}

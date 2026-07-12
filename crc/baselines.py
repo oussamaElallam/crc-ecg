@@ -1,53 +1,90 @@
-"""Multi-label baselines for comparison with MultiLabelCRC."""
+"""Multi-label baselines used in the manuscript comparisons."""
+
+from __future__ import annotations
+
+from typing import Mapping, Optional
 
 import numpy as np
 
 
-# Baselines for multi-label
 def baseline_threshold(probs: np.ndarray, thr: float) -> np.ndarray:
-    return (probs >= thr).astype(int)
+    """Apply one fixed probability threshold to every class."""
+    return (np.asarray(probs) >= float(thr)).astype(np.int8)
 
-def baseline_per_class_f1_threshold(probs_cal: np.ndarray, y_cal: np.ndarray) -> np.ndarray:
-    """Tune per-class threshold to maximize F1 on calibration data."""
-    K = probs_cal.shape[1]
-    best_thr = np.zeros(K)
+
+def baseline_per_class_f1_threshold(
+    probs_cal: np.ndarray, y_cal: np.ndarray
+) -> np.ndarray:
+    """Tune one threshold per class to maximize calibration-set F1."""
+    probs = np.asarray(probs_cal)
+    labels = np.asarray(y_cal)
+    if probs.shape != labels.shape or probs.ndim != 2:
+        raise ValueError("probs_cal and y_cal must be equal-shaped 2-D arrays")
+    thresholds = np.zeros(probs.shape[1], dtype=np.float64)
     candidates = np.linspace(0.05, 0.95, 19)
-    for k in range(K):
-        best_f1, best_t = -1, 0.5
-        y_k = y_cal[:, k]
-        if y_k.sum() == 0:
-            best_thr[k] = 0.5
+    for k in range(probs.shape[1]):
+        best_f1, best_threshold = -1.0, 0.5
+        truth = labels[:, k]
+        if truth.sum() == 0:
+            thresholds[k] = best_threshold
             continue
-        for t in candidates:
-            pred_k = (probs_cal[:, k] >= t).astype(int)
-            tp = ((pred_k == 1) & (y_k == 1)).sum()
-            fp = ((pred_k == 1) & (y_k == 0)).sum()
-            fn = ((pred_k == 0) & (y_k == 1)).sum()
-            if tp + fp == 0 or tp + fn == 0:
-                continue
-            prec = tp / (tp + fp)
-            rec = tp / (tp + fn)
-            f1 = 2*prec*rec / (prec + rec) if (prec + rec) > 0 else 0
+        for threshold in candidates:
+            pred = probs[:, k] >= threshold
+            tp = int(np.sum(pred & (truth == 1)))
+            fp = int(np.sum(pred & (truth == 0)))
+            fn = int(np.sum((~pred) & (truth == 1)))
+            precision = tp / (tp + fp) if tp + fp else 0.0
+            recall = tp / (tp + fn) if tp + fn else 0.0
+            f1 = (
+                2.0 * precision * recall / (precision + recall)
+                if precision + recall else 0.0
+            )
             if f1 > best_f1:
-                best_f1, best_t = f1, t
-        best_thr[k] = best_t
-    return best_thr
+                best_f1, best_threshold = f1, float(threshold)
+        thresholds[k] = best_threshold
+    return thresholds
 
-def baseline_standard_cp_multilabel(probs_cal: np.ndarray, y_cal: np.ndarray,
-                                    alpha: float = 0.10) -> np.ndarray:
-    """
-    Naive split-CP applied per class: single global Hoeffding-free quantile
-    of nonconformity scores 1 - p_k(x_i) over positives for class k.
-    """
-    K = probs_cal.shape[1]
-    thr = np.zeros(K)
-    for k in range(K):
-        pos = y_cal[:, k] == 1
-        if pos.sum() < 2:
-            thr[k] = 0.5
-            continue
-        scores = 1 - probs_cal[pos, k]
-        n = pos.sum()
-        q = np.ceil((n + 1) * (1 - alpha)) / n
-        thr[k] = float(1 - np.quantile(scores, min(q, 1.0)))
-    return thr  # interpret as: include class k if p_k >= thr[k]
+
+def _positive_quantile_threshold(
+    probs: np.ndarray, labels: np.ndarray, k: int, alpha: float
+) -> float:
+    positive = labels[:, k] == 1
+    n = int(positive.sum())
+    if n < 2:
+        return 0.0  # include always when calibration support is absent
+    scores = 1.0 - probs[positive, k]
+    q = min(float(np.ceil((n + 1) * (1.0 - alpha)) / n), 1.0)
+    return float(1.0 - np.quantile(scores, q))
+
+
+def baseline_standard_cp_multilabel(
+    probs_cal: np.ndarray, y_cal: np.ndarray, alpha: float = 0.10
+) -> np.ndarray:
+    """Uniform-alpha, uncorrected positive-class split-CP baseline."""
+    probs = np.asarray(probs_cal, dtype=np.float64)
+    labels = np.asarray(y_cal)
+    if probs.shape != labels.shape or probs.ndim != 2:
+        raise ValueError("probs_cal and y_cal must be equal-shaped 2-D arrays")
+    return np.array([
+        _positive_quantile_threshold(probs, labels, k, float(alpha))
+        for k in range(probs.shape[1])
+    ])
+
+
+def baseline_class_matched_cp_multilabel(
+    probs_cal: np.ndarray,
+    y_cal: np.ndarray,
+    class_alphas: Mapping[int, float],
+    default_alpha: float = 0.10,
+) -> np.ndarray:
+    """Uncorrected CP using the same class-specific targets as the proposed method."""
+    probs = np.asarray(probs_cal, dtype=np.float64)
+    labels = np.asarray(y_cal)
+    if probs.shape != labels.shape or probs.ndim != 2:
+        raise ValueError("probs_cal and y_cal must be equal-shaped 2-D arrays")
+    return np.array([
+        _positive_quantile_threshold(
+            probs, labels, k, float(class_alphas.get(k, default_alpha))
+        )
+        for k in range(probs.shape[1])
+    ])
